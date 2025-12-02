@@ -1,0 +1,487 @@
+{
+  "categories": [
+    {
+      "name": "Core Nodes",
+      "items": [
+        { "name": "StackAI", "icon": "stackai", "keywords": ["stackai", "stack", "ai", "platform"] }
+      ]
+    },
+    {
+      "name": "Apps",
+      "items": [
+        { "name": "Slack", "icon": "slack", "keywords": ["slack", "chat", "messaging", "team", "collaboration"] },
+        { "name": "Google Drive", "icon": "box", "keywords": ["google", "drive", "storage", "file", "cloud", "gdrive"] },
+        { "name": "Gmail", "icon": "box", "keywords": ["gmail", "email", "mail", "google", "message", "inbox", "send email"] },
+        { "name": "Google Sheets", "icon": "box", "keywords": ["google", "sheets", "spreadsheet", "excel", "table", "data"] },
+        { "name": "Outlook", "icon": "box", "keywords": ["outlook", "email", "mail", "microsoft", "calendar", "send email"] },
+        { "name": "Excel", "icon": "box", "keywords": ["excel", "spreadsheet", "table", "data", "microsoft"] },
+        { "name": "Google Calendar", "icon": "clock", "keywords": ["google", "calendar", "schedule", "event", "meeting", "date"] },
+        { "name": "SharePoint", "icon": "box", "keywords": ["sharepoint", "storage", "file", "microsoft", "collaboration"] },
+        { "name": "Airtable", "icon": "airtable", "keywords": ["airtable", "database", "spreadsheet", "table", "data"] },
+        { "name": "Anthropic", "icon": "anthropic", "keywords": ["anthropic", "claude", "chat"] },
+        { "name": "Notion", "icon": "box", "keywords": ["notion", "wiki", "notes", "documentation", "database"] },
+        { "name": "HubSpot", "icon": "box", "keywords": ["hubspot", "crm", "marketing", "sales", "customer"] },
+        { "name": "Azure Blob Storage", "icon": "box", "keywords": ["azure", "blob", "storage", "cloud", "file", "microsoft"] },
+        { "name": "Azure SQL", "icon": "box", "keywords": ["azure", "sql", "database", "microsoft", "db"] },
+        { "name": "Azure OpenAI", "icon": "box", "keywords": ["azure", "openai", "microsoft"] },
+        { "name": "Dropbox", "icon": "box", "keywords": ["dropbox", "storage", "file", "cloud"] },
+        { "name": "Epic FHIR", "icon": "box", "keywords": ["epic", "fhir", "healthcare", "medical", "ehr"] },
+        { "name": "Firecrawl", "icon": "box", "keywords": ["firecrawl", "web", "scrape", "crawl", "website"] },
+        { "name": "Google Docs", "icon": "box", "keywords": ["google", "docs", "document", "word", "text", "editor"] },
+        { "name": "Google Vertex AI", "icon": "box", "keywords": ["google", "vertex"] },
+        { "name": "Google Workspace", "icon": "box", "keywords": ["google", "workspace", "g suite", "productivity", "office"] },
+        { "name": "Groq", "icon": "box", "keywords": ["groq", "fast", "inference"] },
+        { "name": "Intercom", "icon": "box", "keywords": ["intercom", "chat", "support", "customer", "messaging"] },
+        { "name": "Jira", "icon": "box", "keywords": ["jira", "project", "management", "ticket", "issue", "atlassian"] },
+        { "name": "Linear", "icon": "box", "keywords": ["linear", "project", "management", "issue", "tracker"] },
+        { "name": "Looker", "icon": "box", "keywords": ["looker", "bi", "analytics", "dashboard", "data"] },
+        { "name": "MCP", "icon": "box", "keywords": ["mcp", "context", "protocol"] },
+        { "name": "Microsoft Teams", "icon": "box", "keywords": ["microsoft", "teams", "chat", "collaboration", "meeting"] },
+        { "name": "MySQL", "icon": "box", "keywords": ["mysql", "database", "sql", "db", "relational"] },
+        { "name": "NetSuite", "icon": "box", "keywords": ["netsuite", "erp", "business", "finance", "accounting"] },
+        { "name": "Oracle", "icon": "box", "keywords": ["oracle", "database", "db", "sql", "enterprise"] },
+        { "name": "Oracle Database", "icon": "box", "keywords": ["oracle", "database", "db", "sql", "enterprise"] },
+        { "name": "OpenAI", "icon": "box", "keywords": ["openai", "dall-e"] },
+        { "name": "OneDrive", "icon": "box", "keywords": ["onedrive", "storage", "file", "cloud", "microsoft", "drive"] },
+        { "name": "PostgreSQL", "icon": "box", "keywords": ["postgresql", "postgres", "database", "sql", "db"] },
+        { "name": "Realtime Chat", "icon": "box", "keywords": ["realtime", "chat", "messaging", "live", "communication"] },
+        { "name": "Replicate", "icon": "box", "keywords": ["replicate", "inference"] },
+        { "name": "Salesforce", "icon": "box", "keywords": ["salesforce", "crm", "sales", "customer", "management"] },
+        { "name": "Sap", "icon": "box", "keywords": ["sap", "erp", "enterprise", "business", "software"] },
+        { "name": "SEC EDGAR", "icon": "box", "keywords": ["sec", "edgar", "filing", "financial", "stock", "market"] },
+        { "name": "StackAI", "icon": "box", "keywords": ["stackai", "stack", "platform"] },
+        { "name": "DuckDuckGo", "icon": "box", "keywords": ["duckduckgo", "search", "web", "browser", "ddg"] },
+        { "name": "Together AI", "icon": "box", "keywords": ["together", "inference"] },
+        { "name": "Weaviate", "icon": "box", "keywords": ["weaviate", "vector", "database", "search", "embedding"] },
+        { "name": "Algolia", "icon": "box", "keywords": ["algolia", "search", "engine", "api", "index"] },
+        { "name": "AppFolio", "icon": "box", "keywords": ["appfolio", "property", "management", "real estate"] },
+        { "name": "Asana", "icon": "box", "keywords": ["asana", "project", "management", "task", "team"] },
+        { "name": "Ashby", "icon": "box", "keywords": ["ashby", "ats", "recruiting", "hiring", "hr"] },
+        { "name": "AWS Bedrock", "icon": "box", "keywords": ["aws", "bedrock", "amazon"] },
+        { "name": "BigQuery", "icon": "box", "keywords": ["bigquery", "data", "warehouse", "analytics", "google"] },
+        { "name": "Box", "icon": "box", "keywords": ["box", "storage", "file", "cloud"] },
+        { "name": "Braze", "icon": "box", "keywords": ["braze", "marketing", "campaign", "customer", "engagement"] },
+        { "name": "Cerebras", "icon": "box", "keywords": ["cerebras", "chip", "hardware"] },
+        { "name": "Clickup", "icon": "box", "keywords": ["clickup", "project", "management", "task", "productivity"] },
+        { "name": "Coda", "icon": "box", "keywords": ["coda", "document", "spreadsheet", "wiki", "database"] },
+        { "name": "Confluence", "icon": "box", "keywords": ["confluence", "wiki", "documentation", "atlassian", "knowledge"] },
+        { "name": "Crunchbase", "icon": "box", "keywords": ["crunchbase", "company", "startup", "data", "business"] },
+        { "name": "Databricks", "icon": "box", "keywords": ["databricks", "data", "analytics", "spark", "lakehouse"] },
+        { "name": "DealCloud", "icon": "box", "keywords": ["dealcloud", "crm", "deal", "management", "finance"] },
+        { "name": "Dovetail", "icon": "box", "keywords": ["dovetail", "research", "user", "insights", "analysis"] },
+        { "name": "E2B", "icon": "box", "keywords": ["e2b", "sandbox", "code", "execution", "environment"] },
+        { "name": "Elasticsearch", "icon": "box", "keywords": ["elasticsearch", "search", "engine", "elastic", "index"] },
+        { "name": "Exa AI", "icon": "box", "keywords": ["exa", "search", "semantic", "web"] },
+        { "name": "Extend", "icon": "box", "keywords": ["extend", "api", "integration", "connect"] },
+        { "name": "Fathom", "icon": "box", "keywords": ["fathom", "analytics", "web", "tracking", "data"] },
+        { "name": "Fred", "icon": "box", "keywords": ["fred", "economic", "data", "federal reserve", "finance"] },
+        { "name": "Glean", "icon": "box", "keywords": ["glean", "search", "enterprise", "knowledge", "find"] },
+        { "name": "Github", "icon": "code", "keywords": ["github", "git", "code", "repository", "version control"] },
+        { "name": "Google Chat", "icon": "box", "keywords": ["google", "chat", "messaging", "communication", "hangouts"] },
+        { "name": "Hightouch", "icon": "box", "keywords": ["hightouch", "reverse etl", "data", "sync", "warehouse"] },
+        { "name": "HyperBrowser", "icon": "box", "keywords": ["hyperbrowser", "browser", "automation", "web", "scrape"] },
+        { "name": "LinkedIn", "icon": "box", "keywords": ["linkedin", "social", "network", "professional", "recruiting"] },
+        { "name": "Loom", "icon": "box", "keywords": ["loom", "video", "screen", "record"] },
+        { "name": "Make", "icon": "box", "keywords": ["make", "automation", "workflow", "zapier", "integrate"] },
+        { "name": "Miro", "icon": "box", "keywords": ["miro", "whiteboard", "collaboration", "design", "visual"] },
+        { "name": "Mistral AI", "icon": "box", "keywords": ["mistral", "french"] },
+        { "name": "MongoDB", "icon": "box", "keywords": ["mongodb", "database", "nosql", "document", "db"] },
+        { "name": "Outreach", "icon": "box", "keywords": ["outreach", "sales", "sequence", "prospecting"] },
+        { "name": "PandaDoc", "icon": "box", "keywords": ["pandadoc", "document", "sign", "contract", "pdf"] },
+        { "name": "Perplexity", "icon": "box", "keywords": ["perplexity", "search", "answer", "web"] },
+        { "name": "Pinecone", "icon": "box", "keywords": ["pinecone", "vector", "database", "embedding", "search"] },
+        { "name": "PitchBook", "icon": "box", "keywords": ["pitchbook", "private", "market", "data", "finance"] },
+        { "name": "Plaid", "icon": "box", "keywords": ["plaid", "banking", "financial", "api", "account"] },
+        { "name": "Polygon", "icon": "box", "keywords": ["polygon", "crypto", "blockchain", "ethereum", "web3"] },
+        { "name": "Power BI", "icon": "box", "keywords": ["power", "bi", "analytics", "dashboard", "microsoft", "visualization"] },
+        { "name": "Reducto", "icon": "box", "keywords": ["reducto", "video", "summarize", "transcribe"] },
+        { "name": "Regex", "icon": "box", "keywords": ["regex", "pattern", "match", "text", "extract"] },
+        { "name": "RunwayML", "icon": "box", "keywords": ["runway", "video", "image", "generation"] },
+        { "name": "AWS S3", "icon": "box", "keywords": ["aws", "s3", "storage", "bucket", "file", "amazon"] },
+        { "name": "SerpAPI", "icon": "box", "keywords": ["serpapi", "search", "google", "serp", "results"] },
+        { "name": "Servicenow", "icon": "box", "keywords": ["servicenow", "it", "service", "management", "ticket"] },
+        { "name": "Shopify", "icon": "box", "keywords": ["shopify", "ecommerce", "store", "shop", "retail"] },
+        { "name": "Smartsheet", "icon": "box", "keywords": ["smartsheet", "spreadsheet", "project", "management", "collaboration"] },
+        { "name": "Snowflake", "icon": "box", "keywords": ["snowflake", "data", "warehouse", "analytics", "cloud"] },
+        { "name": "S&P Global", "icon": "box", "keywords": ["s&p", "global", "financial", "data", "market", "research"] },
+        { "name": "AWS SQS", "icon": "box", "keywords": ["aws", "sqs", "queue", "message", "amazon", "async"] },
+        { "name": "Stripe", "icon": "box", "keywords": ["stripe", "payment", "billing", "checkout", "finance"] },
+        { "name": "Synapse", "icon": "box", "keywords": ["synapse", "data", "warehouse", "analytics", "microsoft"] },
+        { "name": "Typeform", "icon": "box", "keywords": ["typeform", "form", "survey", "questionnaire", "collect"] },
+        { "name": "Veeva", "icon": "box", "keywords": ["veeva", "life", "sciences", "pharma", "healthcare"] },
+        { "name": "Vlm", "icon": "box", "keywords": ["vlm", "vision", "language", "image", "multimodal"] },
+        { "name": "Wolfram Alpha", "icon": "box", "keywords": ["wolfram", "alpha", "computation", "math", "knowledge"] },
+        { "name": "Workable", "icon": "box", "keywords": ["workable", "ats", "recruiting", "hiring", "hr"] },
+        { "name": "Workday", "icon": "box", "keywords": ["workday", "hcm", "hr", "human resources", "payroll"] },
+        { "name": "XAI", "icon": "box", "keywords": ["xai", "x", "twitter", "grok"] },
+        { "name": "Yahoo Finance", "icon": "box", "keywords": ["yahoo", "finance", "stock", "market", "financial", "data"] },
+        { "name": "YouTube", "icon": "box", "keywords": ["youtube", "video", "media", "content", "stream"] },
+        { "name": "Zapier", "icon": "box", "keywords": ["zapier", "automation", "workflow", "integration", "connect"] },
+        { "name": "Zendesk", "icon": "box", "keywords": ["zendesk", "support", "ticket", "customer", "service"] }
+      ]
+    },
+    {
+      "name": "Logic",
+      "items": [
+        { "name": "Python", "icon": "python", "keywords": ["python", "code", "script", "programming", "execute"] },
+        { "name": "If/Else", "icon": "branch", "keywords": ["if", "else", "conditional", "logic", "branch", "decision"] },
+        { "name": "AI Routing", "icon": "branch", "keywords": ["ai", "routing", "route", "intelligent", "decision", "classify"] },
+        { "name": "Loop Subflow", "icon": "repeat", "keywords": ["loop", "iterate", "repeat", "subflow", "cycle"] }
+      ]
+    },
+    {
+      "name": "Utils",
+      "items": [
+        { "name": "AI Agent", "icon": "bot", "keywords": ["ai", "agent", "ai agent", "llm", "assistant", "chatbot", "gpt"] },
+        { "name": "Knowledge Base", "icon": "book", "keywords": ["knowledge", "base", "vector", "search", "embedding", "rag"] },
+        { "name": "StackAI Project", "icon": "stackai", "keywords": ["stack", "ai", "project", "workflow", "execute"] },
+        { "name": "Sticky Note", "icon": "sticky", "keywords": ["sticky", "note", "comment", "annotation", "text"] },
+        { "name": "Default Message", "icon": "message", "keywords": ["default", "message", "fallback", "response"] },
+        { "name": "Delay", "icon": "clock", "keywords": ["delay", "wait", "sleep", "pause", "time"] },
+        { "name": "Shared Memory", "icon": "share", "keywords": ["shared", "memory", "state", "store", "cache"] },
+        { "name": "Dynamic Vector Store", "icon": "database", "keywords": ["dynamic", "vector", "store", "embedding", "search"] },
+        { "name": "Text-to-SQL", "icon": "code", "keywords": ["text", "sql", "query", "database", "natural language"] },
+        { "name": "Search Tables", "icon": "table", "keywords": ["search", "tables", "database", "query", "find"] },
+        { "name": "Search Data", "icon": "code", "keywords": ["search", "data", "query", "find", "filter"] }
+      ]
+    }
+  ],
+  "inputItems": [
+    { "name": "Input", "icon": "pencil", "keywords": ["input", "text input", "userinput", "user", "trigger", "start", "begin"] },
+    { "name": "Files", "icon": "file", "keywords": ["file", "upload", "document", "trigger", "input"] },
+    { "name": "Trigger", "icon": "zap", "keywords": ["app", "trigger", "webhook", "api", "start", "input", "app trigger", "text input"] },
+    { "name": "URL", "icon": "link", "keywords": ["url", "link", "web", "trigger", "http", "input"] },
+    { "name": "Audio", "icon": "mic", "keywords": ["audio", "sound", "voice", "trigger", "record", "input"] }
+  ],
+  "outputItems": [
+    { "name": "Output", "icon": "pencil", "keywords": ["output", "result", "end", "return"] },
+    { "name": "Action", "icon": "play", "keywords": ["action", "execute", "perform", "output"] },
+    { "name": "Audio", "icon": "mic", "keywords": ["audio", "sound", "voice", "output", "play"] },
+    { "name": "Template", "icon": "template", "keywords": ["template", "format", "output", "render"] }
+  ],
+  "builtInTriggers": [
+    { "name": "Scheduled Execution", "icon": "clock", "keywords": ["scheduled", "execution", "cron", "timer", "schedule"] },
+    { "name": "Webhook", "icon": "webhook", "keywords": ["webhook", "api", "http", "endpoint", "trigger"] },
+    { "name": "User Text", "icon": "pencil", "keywords": ["user", "text", "input", "trigger", "start"] },
+    { "name": "Files", "icon": "file", "keywords": ["file", "upload", "trigger", "input"] },
+    { "name": "Audio", "icon": "mic", "keywords": ["audio", "sound", "voice", "trigger", "record"] },
+    { "name": "URL", "icon": "link", "keywords": ["url", "link", "web", "trigger", "http"] }
+  ],
+  "appTriggers": [
+    { "name": "Airtable", "icon": "airtable", "keywords": ["airtable", "trigger", "database"] },
+    { "name": "Google Drive", "icon": "box", "keywords": ["google", "drive", "trigger", "file"] },
+    { "name": "Google Sheets", "icon": "box", "keywords": ["google", "sheets", "trigger", "spreadsheet"] },
+    { "name": "Gmail", "icon": "box", "keywords": ["gmail", "trigger", "email", "mail"] },
+    { "name": "Microsoft Teams", "icon": "box", "keywords": ["microsoft", "teams", "trigger", "chat"] },
+    { "name": "Outlook", "icon": "box", "keywords": ["outlook", "trigger", "email", "mail"] },
+    { "name": "Realtime Chat", "icon": "box", "keywords": ["realtime", "chat", "trigger", "messaging"] },
+    { "name": "SharePoint", "icon": "box", "keywords": ["sharepoint", "trigger", "file", "storage"] },
+    { "name": "Slack", "icon": "slack", "keywords": ["slack", "trigger", "chat", "messaging"] },
+    { "name": "StackAI", "icon": "stackai", "keywords": ["stackai", "trigger", "platform"] },
+    { "name": "Github", "icon": "code", "keywords": ["github", "trigger", "git", "code"] },
+    { "name": "AWS SQS", "icon": "box", "keywords": ["aws", "sqs", "trigger", "queue"] },
+    { "name": "Stripe", "icon": "box", "keywords": ["stripe", "trigger", "payment"] },
+    { "name": "Typeform", "icon": "box", "keywords": ["typeform", "trigger", "form"] },
+    { "name": "Zendesk", "icon": "box", "keywords": ["zendesk", "trigger", "support"] }
+  ],
+  "popularApps": [
+    { "name": "Slack", "icon": "slack", "keywords": ["slack", "chat", "messaging", "team", "collaboration"] },
+    { "name": "Google Drive", "icon": "box", "keywords": ["google", "drive", "storage", "file", "cloud"] },
+    { "name": "Gmail", "icon": "box", "keywords": ["gmail", "email", "mail", "google", "message"] },
+    { "name": "Google Sheets", "icon": "box", "keywords": ["google", "sheets", "spreadsheet", "excel"] },
+    { "name": "Outlook", "icon": "box", "keywords": ["outlook", "email", "mail", "microsoft"] },
+    { "name": "Excel", "icon": "box", "keywords": ["excel", "spreadsheet", "table", "data"] },
+    { "name": "Google Calendar", "icon": "clock", "keywords": ["google", "calendar", "schedule", "event"] },
+    { "name": "SharePoint", "icon": "box", "keywords": ["sharepoint", "storage", "file", "microsoft"] }
+  ],
+  "popularTools": [
+    { "name": "AI Agent", "icon": "bot", "category": "Core Nodes", "keywords": ["ai", "agent", "assistant", "chatbot", "llm", "gpt"] },
+    { "name": "Knowledge Base", "icon": "book", "category": "Core Nodes", "keywords": ["knowledge", "base", "vector", "search", "embedding", "rag"] },
+    { "name": "Python", "icon": "python", "category": "Logic", "keywords": ["python", "code", "script", "programming"] },
+    { "name": "If/Else", "icon": "branch", "category": "Logic", "keywords": ["if", "else", "conditional", "logic", "branch", "decision"] },
+    { "name": "Delay", "icon": "clock", "category": "Utils", "keywords": ["delay", "wait", "sleep", "pause", "time"] },
+    { "name": "Text-to-SQL", "icon": "code", "category": "Utils", "keywords": ["text", "sql", "query", "database", "natural language"] },
+    { "name": "Output", "icon": "pencil", "category": "Outputs", "keywords": ["output", "result", "end", "return"] },
+    { "name": "User Text", "icon": "pencil", "category": "Triggers", "keywords": ["user", "text", "input", "trigger", "start"] },
+    { "name": "Web Search", "icon": "link", "category": "Core Nodes", "keywords": ["web", "search", "google", "find", "query"] }
+  ],
+  "appDetails": {
+    "Google Drive": {
+      "tags": ["googledrive"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "File Tools",
+          "items": [
+            { "name": "Get File", "description": "Get a file's metadata, content, or parsed text from Google Drive" },
+            { "name": "Create File", "description": "Create a file in Google Drive (optionally upload content for pdf/docx/xlsx/pptx)" }
+          ]
+        }
+      ]
+    },
+    "Gmail": {
+      "tags": ["gmail"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "Messages",
+          "items": [
+            { "name": "Search Emails", "description": "Search for emails in Gmail" },
+            { "name": "Send Email", "description": "Send an email via Gmail" }
+          ]
+        }
+      ]
+    },
+    "Excel": {
+      "tags": ["excel"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "Sheet Tools",
+          "items": [
+            { "name": "Create Sheet", "description": "Create a new sheet in an Excel workbook" },
+            { "name": "Clear Sheet", "description": "Clear data from an Excel sheet in SharePoint" },
+            { "name": "Delete Sheet", "description": "Delete a sheet from an Excel workbook in SharePoint" },
+            { "name": "List Sheets", "description": "List all worksheets in an Excel workbook" },
+            { "name": "Read from Sheet", "description": "Read data from an Excel sheet" },
+            { "name": "Update Cell", "description": "Update a specific cell value in an Excel sheet by cell address" }
+          ]
+        },
+        {
+          "name": "Worksheet Tools",
+          "items": [
+            { "name": "Get Sheet by ID", "description": "Get a specific sheet by its ID or name from an Excel workbook" },
+            { "name": "Rename Sheet", "description": "Rename a sheet in an Excel workbook" }
+          ]
+        },
+        {
+          "name": "Table Tools",
+          "items": [
+            { "name": "Create Table", "description": "Create a table in an Excel sheet" },
+            { "name": "Add Data to Table", "description": "Add data to a table in an Excel sheet." }
+          ]
+        },
+        {
+          "name": "Spreadsheet Tools",
+          "items": [
+            { "name": "Find Row", "description": "Find rows containing specific search criteria in an Excel sheet." },
+            { "name": "Get Cells in Range", "description": "Get cell values from an Excel sheet" },
+            { "name": "Get Row by Index", "description": "Get a specific row by index from an Excel worksheet" },
+            { "name": "Update Row", "description": "Update a specific row in an Excel sheet with new data." }
+          ]
+        },
+        {
+          "name": "Workbook Tools",
+          "items": [
+            { "name": "Create Workbook", "description": "Create a new Excel workbook in SharePoint or OneDrive." },
+            { "name": "List Workbooks", "description": "List all Excel workbooks from a SharePoint site" }
+          ]
+        }
+      ]
+    },
+    "Google Sheets": {
+      "tags": ["sheets"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "Sheet Tools",
+          "items": [
+            { "name": "Write to Sheet", "description": "Write data to a Google Sheet (e.g., Sheet1, JSON data)" },
+            { "name": "Read from Sheet", "description": "Read data from a Google Sheet (e.g., Sheet1, range A1:B10)" },
+            { "name": "Update Sheet", "description": "Update data in a Google Sheet (by row, criteria, or range)" },
+            { "name": "Delete Row", "description": "Delete a specific row from a Google Sheet by row number" },
+            { "name": "Get Row by Index", "description": "Get a specific row from a Google Sheet by row number/index" },
+            { "name": "Update Cell", "description": "Update a specific cell value in a Google Sheet by cell address" },
+            { "name": "List Worksheets", "description": "List all worksheets/sheets in a Google Spreadsheet with their details" }
+          ]
+        },
+        {
+          "name": "Document Tools",
+          "items": [
+            { "name": "Create Spreadsheet", "description": "Create a new Google Spreadsheet with a specified title" },
+            { "name": "Create Sheet", "description": "Create a new sheet/tab in an existing Google Spreadsheet" },
+            { "name": "Get Spreadsheet Details", "description": "Get detailed information about a Google Spreadsheet including sheets, dimensions, and metadata" }
+          ]
+        },
+        {
+          "name": "Header Tools",
+          "items": [
+            { "name": "List Column Headers", "description": "Get the column headers from the first row of a Google Sheet" },
+            { "name": "Create Column Headers", "description": "Create column headers in the first row of a Google Sheet" }
+          ]
+        }
+      ]
+    },
+    "SharePoint": {
+      "tags": ["sharepoint"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "Search Tools",
+          "items": [
+            { "name": "Search Files", "description": "Search for files and documents in SharePoint" }
+          ]
+        },
+        {
+          "name": "Document Tools",
+          "items": [
+            { "name": "Create Word Document", "description": "Create a Word (DOCX) file in SharePoint with supplied text." }
+          ]
+        }
+      ]
+    },
+    "Outlook": {
+      "tags": ["outlook"],
+      "triggers": [],
+      "actionGroups": [
+        {
+          "name": "Messages",
+          "items": [
+            { "name": "Search Emails", "description": "Search for emails in Outlook" },
+            { "name": "Send Email", "description": "Send an email via Outlook" }
+          ]
+        }
+      ]
+    }
+  },
+  "nodeDescriptions": {
+    "Input": "Accept text or data input from users",
+    "Files": "Upload and process files in your workflow",
+    "Trigger": "Start workflow based on external events",
+    "URL": "Fetch data from a URL endpoint",
+    "Audio": "Record or process audio input",
+    "Output": "Display results to the user",
+    "Action": "Perform an action based on workflow results",
+    "Template": "Generate formatted output from templates",
+    "AI Agent": "Intelligent agent that can reason and act",
+    "Knowledge Base": "Store and retrieve knowledge for AI",
+    "If/Else": "Conditional branching based on conditions",
+    "AI Routing": "Route workflow based on AI decisions",
+    "Loop Subflow": "Repeat a subflow multiple times",
+    "Delay": "Wait for a specified duration",
+    "StackAI Project": "Manage StackAI projects",
+    "Sticky Note": "Create a sticky note",
+    "Default Message": "Send a default message",
+    "Shared Memory": "Use shared memory for data storage",
+    "Dynamic Vector Store": "Manage dynamic vector stores",
+    "Text-to-SQL": "Convert text to SQL queries",
+    "Search Tables": "Search tables for data",
+    "Search Data": "Search data for specific information",
+    "Python": "Execute Python code",
+    "Airtable": "Connect to Airtable databases",
+    "Anthropic": "Use Anthropic Claude AI models"
+  },
+  "stackAITools": {
+      "Code Tools": [
+      { "name": "Analysis Tool", "icon": "code", "keywords": ["analysis", "code", "analyze", "review", "inspect"] },
+      { "name": "Python", "icon": "code", "keywords": ["python", "code", "script", "programming", "execute"] }
+      ],
+      "Document Tools": [
+      { "name": "Split Files", "icon": "file", "keywords": ["split", "file", "divide", "chunk", "break"] },
+      { "name": "Create Spreadsheet File", "icon": "file", "keywords": ["spreadsheet", "excel", "csv", "table", "create"] },
+      { "name": "Create Slides", "icon": "file", "keywords": ["slides", "presentation", "powerpoint", "ppt", "create"] },
+      { "name": "Document Q&A", "icon": "book", "keywords": ["document", "qa", "question", "answer", "query"] },
+      { "name": "Extract JSON Data with JMESPath", "icon": "code", "keywords": ["extract", "json", "jmespath", "data", "parse"] },
+      { "name": "Convert Markdown to File", "icon": "file", "keywords": ["markdown", "convert", "file", "md", "create"] },
+      { "name": "Page Split", "icon": "file", "keywords": ["page", "split", "divide", "chunk", "break"] },
+      { "name": "Parse Files", "icon": "file", "keywords": ["parse", "file", "extract", "read", "process"] },
+      { "name": "PDF to Image", "icon": "file", "keywords": ["pdf", "image", "convert", "render", "png"] },
+      { "name": "Summarize Documents", "icon": "book", "keywords": ["summarize", "document", "summary", "condense", "abstract"] },
+      { "name": "Transcribe Documents", "icon": "file", "keywords": ["transcribe", "document", "text", "ocr", "extract"] },
+      { "name": "Translate Documents", "icon": "file", "keywords": ["translate", "document", "language", "localize", "convert"] }
+      ],
+      "Time Tools": [
+      { "name": "Current Time", "icon": "clock", "keywords": ["time", "current", "now", "date", "timestamp"] },
+      { "name": "Weekday Calculator", "icon": "clock", "keywords": ["weekday", "day", "calculate", "date", "calendar"] }
+      ],
+      "Web Tools": [
+      { "name": "Deep Research", "icon": "link", "keywords": ["deep", "search", "research", "investigate", "analyze", "study"] },
+      { "name": "Get Website as Markdown", "icon": "link", "keywords": ["website", "markdown", "md", "convert", "scrape"] },
+      { "name": "Job Search", "icon": "link", "keywords": ["job", "search", "career", "hiring", "employment"] },
+      { "name": "News Search", "icon": "link", "keywords": ["news", "search", "article", "media", "current events"] },
+      { "name": "Send HTTP Request", "icon": "link", "keywords": ["http", "request", "api", "rest", "web", "call", "hook"] }
+      ],
+      "Knowledge Base Tools": [
+      { "name": "List Knowledge Base Contents", "icon": "database", "keywords": ["knowledge", "base", "list", "contents", "files"] },
+      { "name": "Read Knowledge Base File", "icon": "database", "keywords": ["knowledge", "base", "read", "file", "content"] },
+      { "name": "Search Knowledge Base", "icon": "database", "keywords": ["knowledge", "base", "search", "query", "find"] }
+      ],
+      "Documents Tools": [
+      { "name": "Fill PDF Form", "icon": "file", "keywords": ["pdf", "form", "fill", "complete", "populate"] }
+      ],
+      "Workflow Tools": [
+      { "name": "Generate StackAI Workflow", "icon": "stackai", "keywords": ["generate", "workflow", "stackai", "create", "build"] },
+      { "name": "Get StackAI Action", "icon": "stackai", "keywords": ["get", "action", "stackai", "retrieve", "fetch"] },
+      { "name": "List StackAI Actions", "icon": "stackai", "keywords": ["list", "actions", "stackai", "enumerate", "show"] },
+      { "name": "List StackAI Triggers", "icon": "stackai", "keywords": ["list", "triggers", "stackai", "enumerate", "show"] },
+      { "name": "Execute StackAI Project", "icon": "stackai", "keywords": ["execute", "project", "stackai", "run", "trigger"] }
+      ],
+      "Files Tools": [
+      { "name": "Download Private File", "icon": "file", "keywords": ["download", "file", "private", "get", "fetch"] }
+      ],
+      "Image Tools": [
+      { "name": "Convert HTML to Image", "icon": "file", "keywords": ["html", "image", "convert", "render", "screenshot"] },
+      { "name": "Image-to-Image Transform", "icon": "file", "keywords": ["image", "transform", "edit", "modify", "convert"] },
+      { "name": "Image to Text", "icon": "file", "keywords": ["image", "text", "ocr", "extract", "read"] },
+      { "name": "Text to Image", "icon": "file", "keywords": ["text", "image", "generate", "create", "dall-e"] }
+      ],
+      "Email Tools": [
+      { "name": "Send Email", "icon": "message", "keywords": ["email", "send", "mail", "message"] }
+      ],
+      "Web Search Tools": [
+      { "name": "Web Search", "icon": "link", "keywords": ["web", "search", "google", "find", "query"] }
+      ],
+      "Computer Tools": [
+      { "name": "Browser Navigation", "icon": "code", "keywords": ["browser", "navigate", "web", "click", "automation"] },
+      { "name": "Code Execution", "icon": "code", "keywords": ["code", "execute", "run", "script", "programming"] },
+      { "name": "File Navigation", "icon": "file", "keywords": ["file", "navigate", "directory", "folder", "path"] },
+      { "name": "Terminal", "icon": "code", "keywords": ["terminal", "command", "shell", "cli", "execute"] }
+      ],
+      "Utilities": [
+      { "name": "Sticky Note", "icon": "sticky", "keywords": ["sticky", "note", "comment", "annotation", "text"] },
+      { "name": "Default Message", "icon": "message", "keywords": ["default", "message", "fallback", "response"] },
+      { "name": "Shared Memory", "icon": "share", "keywords": ["shared", "memory", "state", "store", "cache"] },
+      { "name": "Dynamic Vector Store", "icon": "database", "keywords": ["dynamic", "vector", "store", "embedding", "search"] },
+      { "name": "Text-to-SQL", "icon": "code", "keywords": ["text", "sql", "query", "database", "natural language"] },
+      { "name": "Search Tables", "icon": "table", "keywords": ["search", "tables", "database", "query", "find"] },
+      { "name": "Search Data", "icon": "code", "keywords": ["search", "data", "query", "find", "filter"] }
+      ]
+    },
+  "knowledgeBase": [
+    { "name": "Document Upload", "icon": "file" },
+    { "name": "Websites", "icon": "link" },
+    { "name": "Azure Blob Storage", "icon": "box" },
+    { "name": "Dropbox", "icon": "box" },
+    { "name": "Google Drive", "icon": "box" },
+    { "name": "Gmail", "icon": "box" },
+    { "name": "Jira", "icon": "box" },
+    { "name": "Notion", "icon": "box" },
+    { "name": "Outlook (OAuth2)", "icon": "box" },
+    { "name": "OneDrive (OAuth2)", "icon": "box" },
+    { "name": "SharePoint (OAuth2)", "icon": "box" },
+    { "name": "SharePoint", "icon": "box" },
+    { "name": "SharePoint (NTLM)", "icon": "box" },
+    { "name": "Coda", "icon": "box" },
+    { "name": "Confluence (OAuth2)", "icon": "box" },
+    { "name": "AWS S3", "icon": "box" },
+    { "name": "ServiceNow", "icon": "box" },
+    { "name": "Veeva", "icon": "box" }
+  ],
+  "aiAgentProviders": [
+    { "name": "OpenAI", "keywords": ["openai", "gpt", "chatgpt"] },
+    { "name": "Anthropic", "keywords": ["anthropic", "claude"] },
+    { "name": "Google", "keywords": ["google", "gemini", "bard"] },
+    { "name": "Meta", "keywords": ["meta", "llama"] },
+    { "name": "XAI", "keywords": ["xai", "grok", "twitter"] },
+    { "name": "Mistral", "keywords": ["mistral", "ai"] },
+    { "name": "Perplexity", "keywords": ["perplexity", "search"] },
+    { "name": "TogetherAI", "keywords": ["together", "ai"] },
+    { "name": "Cerebras", "keywords": ["cerebras"] },
+    { "name": "Replicate", "keywords": ["replicate"] },
+    { "name": "Groq", "keywords": ["groq"] },
+    { "name": "Azure", "keywords": ["azure", "openai"] },
+    { "name": "Bedrock", "keywords": ["bedrock", "aws"] },
+    { "name": "Local", "keywords": ["local", "llm"] }
+    ]
+  }
+  

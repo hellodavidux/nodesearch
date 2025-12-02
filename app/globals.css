@@ -136,8 +136,10 @@
 
 /* Scrollbar styles for node selector panel */
 .node-selector-scrollable {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: thin; /* Firefox - use thin to reserve space, make transparent */
+  -ms-overflow-style: auto; /* IE and Edge */
+  scrollbar-gutter: stable; /* Reserve space for scrollbar to prevent layout shift */
+  scrollbar-color: transparent transparent; /* Firefox - transparent scrollbar by default */
 }
 
 .node-selector-scrollable::-webkit-scrollbar {
@@ -159,8 +161,7 @@
 }
 
 .node-selector-scrollable:hover {
-  scrollbar-width: thin; /* Firefox */
-  -ms-overflow-style: auto; /* IE and Edge */
+  scrollbar-color: oklch(0.556 0 0 / 0.4) transparent; /* Firefox - show scrollbar on hover */
 }
 
 /* No scrollbar for sidebar source */

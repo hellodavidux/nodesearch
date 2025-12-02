@@ -23,7 +23,7 @@ function FlowCanvas({
   onOpenNodeSelectorRef: React.MutableRefObject<((position: { x: number; y: number }, source?: "handle" | "replace", tab?: string) => void) | null>
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
-  const [edges, onEdgesChange] = useEdgesState([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [isInitialized, setIsInitialized] = useState(false)
   const [selectedNodeData, setSelectedNodeData] = useState<{
     id: string
@@ -107,7 +107,7 @@ function FlowCanvas({
 
   const handleDeleteNode = (nodeId: string) => {
     setNodes((nds) => nds.filter((n) => n.id !== nodeId))
-    setEdges((eds) => eds.filter((e) => e.source !== nodeId && e.target !== nodeId))
+    setEdges((eds) => eds.filter((e: any) => e.source !== nodeId && e.target !== nodeId))
     if (selectedNodeData?.id === nodeId) {
       setIsSidebarOpen(false)
       setSelectedNodeData(null)

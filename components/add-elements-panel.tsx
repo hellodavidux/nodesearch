@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-import { Star } from "lucide-react"
+import { Home } from "lucide-react"
 
-import { useState, useEffect, type DragEvent } from "react"
+import { useState, useEffect, useRef, type DragEvent } from "react"
 import {
   Blocks,
   Code,
@@ -38,6 +38,8 @@ import SlackIconComponent from "./SlackIcon"
 import StackAIIcon from "./StackAIIcon"
 import AnthropicIcon from "./AnthropicIcon"
 import AirtableIcon from "./AirtableIcon"
+import AppIcon from "./AppIcon"
+import nodesData from "@/nodes.json"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import type { SelectedAction, AppDetail, Category } from "@/lib/types"
 
@@ -326,6 +328,35 @@ const appDetails: Record<string, AppDetail> = {
       },
     ],
   },
+  "Knowledge Base": {
+    tags: ["knowledgebase"],
+    triggers: [],
+    actionGroups: [
+      {
+        name: "Sources",
+        items: [
+          { name: "Document Upload", description: "" },
+          { name: "Websites", description: "" },
+          { name: "Azure Blob Storage", description: "" },
+          { name: "Dropbox", description: "" },
+          { name: "Google Drive", description: "" },
+          { name: "Gmail", description: "" },
+          { name: "Jira", description: "" },
+          { name: "Notion", description: "" },
+          { name: "Outlook (OAuth2)", description: "" },
+          { name: "OneDrive (OAuth2)", description: "" },
+          { name: "SharePoint (OAuth2)", description: "" },
+          { name: "SharePoint", description: "" },
+          { name: "SharePoint (NTLM)", description: "" },
+          { name: "Coda", description: "" },
+          { name: "Confluence (OAuth2)", description: "" },
+          { name: "AWS S3", description: "" },
+          { name: "ServiceNow", description: "" },
+          { name: "Veeva", description: "" },
+        ],
+      },
+    ],
+  },
 }
 
 const nodeDescriptions: Record<string, string> = {
@@ -391,18 +422,7 @@ const categories: Category[] = [
   {
     name: "Apps",
     icon: Blocks,
-    items: [
-      { name: "Slack", icon: "slack" },
-      { name: "Google Drive", icon: "box" },
-      { name: "Gmail", icon: "box" },
-      { name: "Sheets", icon: "box" },
-      { name: "Outlook", icon: "box" },
-      { name: "Excel", icon: "box" },
-      { name: "Calendar", icon: "clock" },
-      { name: "SharePoint", icon: "box" },
-      { name: "Airtable", icon: "airtable" },
-      { name: "Anthropic", icon: "anthropic" },
-    ],
+    items: [], // Items handled separately - popular apps first, then all others alphabetically
   },
   {
     name: "Logic",
@@ -452,7 +472,7 @@ const outputItems = [
 const builtInTriggers = [
   { name: "Scheduled Execution", icon: "clock" },
   { name: "Webhook", icon: "webhook" },
-  { name: "User Text", icon: "pencil" },
+  { name: "Input", icon: "pencil" },
   { name: "Files", icon: "file" },
   { name: "Audio", icon: "mic" },
   { name: "URL", icon: "link" },
@@ -484,12 +504,133 @@ const popularApps = [
   { name: "Slack", icon: "slack" },
   { name: "Google Drive", icon: "box" },
   { name: "Gmail", icon: "box" },
-  { name: "Sheets", icon: "box" },
+  { name: "Google Sheets", icon: "box" },
   { name: "Outlook", icon: "box" },
   { name: "Excel", icon: "box" },
-  { name: "Calendar", icon: "clock" },
+  { name: "Google Calendar", icon: "clock" },
   { name: "SharePoint", icon: "box" },
 ]
+
+// All apps from JSON, sorted alphabetically
+const allApps = [
+  { name: "Algolia", icon: "box" },
+  { name: "Anthropic", icon: "anthropic" },
+  { name: "AppFolio", icon: "box" },
+  { name: "Asana", icon: "box" },
+  { name: "Ashby", icon: "box" },
+  { name: "Airtable", icon: "airtable" },
+  { name: "AWS Bedrock", icon: "box" },
+  { name: "AWS S3", icon: "box" },
+  { name: "AWS SQS", icon: "box" },
+  { name: "Azure Blob Storage", icon: "box" },
+  { name: "Azure OpenAI", icon: "box" },
+  { name: "Azure SQL", icon: "box" },
+  { name: "BigQuery", icon: "box" },
+  { name: "Box", icon: "box" },
+  { name: "Braze", icon: "box" },
+  { name: "Cerebras", icon: "box" },
+  { name: "Clickup", icon: "box" },
+  { name: "Coda", icon: "box" },
+  { name: "Confluence", icon: "box" },
+  { name: "Crunchbase", icon: "box" },
+  { name: "Databricks", icon: "box" },
+  { name: "DealCloud", icon: "box" },
+  { name: "Dovetail", icon: "box" },
+  { name: "Dropbox", icon: "box" },
+  { name: "DuckDuckGo", icon: "box" },
+  { name: "E2B", icon: "box" },
+  { name: "Elasticsearch", icon: "box" },
+  { name: "Epic FHIR", icon: "box" },
+  { name: "Exa AI", icon: "box" },
+  { name: "Excel", icon: "box" },
+  { name: "Extend", icon: "box" },
+  { name: "Fathom", icon: "box" },
+  { name: "Firecrawl", icon: "box" },
+  { name: "Fred", icon: "box" },
+  { name: "Github", icon: "code" },
+  { name: "Glean", icon: "box" },
+  { name: "Gmail", icon: "box" },
+  { name: "Google Calendar", icon: "clock" },
+  { name: "Google Chat", icon: "box" },
+  { name: "Google Docs", icon: "box" },
+  { name: "Google Drive", icon: "box" },
+  { name: "Google Sheets", icon: "box" },
+  { name: "Google Vertex AI", icon: "box" },
+  { name: "Google Workspace", icon: "box" },
+  { name: "Groq", icon: "box" },
+  { name: "Hightouch", icon: "box" },
+  { name: "HubSpot", icon: "box" },
+  { name: "HyperBrowser", icon: "box" },
+  { name: "Intercom", icon: "box" },
+  { name: "Jira", icon: "box" },
+  { name: "Linear", icon: "box" },
+  { name: "LinkedIn", icon: "box" },
+  { name: "Loom", icon: "box" },
+  { name: "Looker", icon: "box" },
+  { name: "Make", icon: "box" },
+  { name: "MCP", icon: "box" },
+  { name: "Microsoft Teams", icon: "box" },
+  { name: "Miro", icon: "box" },
+  { name: "Mistral AI", icon: "box" },
+  { name: "MongoDB", icon: "box" },
+  { name: "MySQL", icon: "box" },
+  { name: "NetSuite", icon: "box" },
+  { name: "Notion", icon: "box" },
+  { name: "OneDrive", icon: "box" },
+  { name: "OpenAI", icon: "box" },
+  { name: "Oracle", icon: "box" },
+  { name: "Oracle Database", icon: "box" },
+  { name: "Outlook", icon: "box" },
+  { name: "Outreach", icon: "box" },
+  { name: "PandaDoc", icon: "box" },
+  { name: "Perplexity", icon: "box" },
+  { name: "Pinecone", icon: "box" },
+  { name: "PitchBook", icon: "box" },
+  { name: "Plaid", icon: "box" },
+  { name: "Polygon", icon: "box" },
+  { name: "PostgreSQL", icon: "box" },
+  { name: "Power BI", icon: "box" },
+  { name: "Realtime Chat", icon: "box" },
+  { name: "Reducto", icon: "box" },
+  { name: "Regex", icon: "box" },
+  { name: "Replicate", icon: "box" },
+  { name: "RunwayML", icon: "box" },
+  { name: "Salesforce", icon: "box" },
+  { name: "Sap", icon: "box" },
+  { name: "SEC EDGAR", icon: "box" },
+  { name: "SerpAPI", icon: "box" },
+  { name: "Servicenow", icon: "box" },
+  { name: "SharePoint", icon: "box" },
+  { name: "Shopify", icon: "box" },
+  { name: "Slack", icon: "slack" },
+  { name: "Smartsheet", icon: "box" },
+  { name: "Snowflake", icon: "box" },
+  { name: "S&P Global", icon: "box" },
+  { name: "StackAI", icon: "box" },
+  { name: "Stripe", icon: "box" },
+  { name: "Synapse", icon: "box" },
+  { name: "Together AI", icon: "box" },
+  { name: "Typeform", icon: "box" },
+  { name: "Veeva", icon: "box" },
+  { name: "Vlm", icon: "box" },
+  { name: "Weaviate", icon: "box" },
+  { name: "Wolfram Alpha", icon: "box" },
+  { name: "Workable", icon: "box" },
+  { name: "Workday", icon: "box" },
+  { name: "XAI", icon: "box" },
+  { name: "Yahoo Finance", icon: "box" },
+  { name: "YouTube", icon: "box" },
+  { name: "Zapier", icon: "box" },
+  { name: "Zendesk", icon: "box" },
+]
+
+// Get popular app names for filtering
+const popularAppNames = new Set(popularApps.map(app => app.name))
+
+// Filter out popular apps and sort alphabetically
+const otherApps = allApps
+  .filter(app => !popularAppNames.has(app.name))
+  .sort((a, b) => a.name.localeCompare(b.name))
 
 const popularTools = [
   { name: "AI Agent", icon: "bot", category: "Core Nodes" },
@@ -499,7 +640,7 @@ const popularTools = [
   { name: "Delay", icon: "clock", category: "Utils" },
   { name: "Text-to-SQL", icon: "code", category: "Utils" },
   { name: "Output", icon: "pencil", category: "Outputs" },
-  { name: "User Text", icon: "pencil", category: "Triggers" },
+  { name: "Input", icon: "pencil", category: "Triggers" },
 ]
 
 // =============================================================================
@@ -558,7 +699,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   webhook: Webhook,
 }
 
-function ItemIcon({ type, muted = false }: { type: string; muted?: boolean }) {
+function ItemIcon({ type, muted = false, appName }: { type: string; muted?: boolean; appName?: string }) {
+  // If type is "box" and we have an app name, use AppIcon (with brand colors)
+  if (type === "box" && appName) {
+    return <AppIcon appName={appName} className="w-3.5 h-3.5 flex-shrink-0" />
+  }
+  
   const Icon = iconMap[type] || Box
   return <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${muted ? "text-muted-foreground" : "text-foreground"}`} />
 }
@@ -628,6 +774,14 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   const [actionsExpanded, setActionsExpanded] = useState(true)
   const [tabKey, setTabKey] = useState(0)
   const [selectedApp, setSelectedApp] = useState<string | null>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  // Reset scroll position when tab changes or search query changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0
+    }
+  }, [activeTab, selectedApp, searchQuery])
 
   const getTabIndex = () => {
     if (activeTab === "Popular") return 0
@@ -646,6 +800,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
     if (details) {
       setSelectedApp(item.name)
+      setSelectedAction(null) // Clear selected action when showing app details
       return
     }
 
@@ -698,6 +853,15 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   }
 
   const handlePopularToolClick = (tool: { name: string; icon: string; category: string }) => {
+    // Check if this tool has app details (like Knowledge Base with sublevels)
+    const details = appDetails[tool.name]
+    
+    if (details) {
+      setSelectedApp(tool.name)
+      setSelectedAction(null) // Clear selected action when showing app details
+      return
+    }
+    
     const description = nodeDescriptions[tool.name] || `${tool.name} node`
     setSelectedAction(tool.name)
     onSelectAction?.({
@@ -736,7 +900,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   >
                     <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <ItemIcon type={tool.icon} muted />
+                        <ItemIcon type={tool.icon} muted appName={tool.name} />
                         <span className="text-foreground truncate font-medium">{tool.name}</span>
               </div>
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
@@ -745,14 +909,25 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 )
               }
               
+              const toolDetails = appDetails[tool.name]
               return (
               <div
                 key={tool.name}
-                onClick={() => handlePopularToolClick(tool)}
-                className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                className="group/item"
+                onMouseEnter={(e) => e.stopPropagation()}
               >
-                <ItemIcon type={tool.icon} muted />
-                <span className="text-foreground truncate font-medium">{tool.name}</span>
+                <div
+                  onClick={() => handlePopularToolClick(tool)}
+                  className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <ItemIcon type={tool.icon} muted />
+                    <span className="text-foreground truncate font-medium">{tool.name}</span>
+                  </div>
+                  {toolDetails && (
+                    <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                  )}
+                </div>
               </div>
               )
             })}
@@ -801,7 +976,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ItemIcon type={app.icon} muted />
+                      <ItemIcon type={app.icon} muted appName={app.name} />
                       <span className="text-foreground truncate font-medium">{app.name}</span>
                     </div>
                     {details && (
@@ -1029,7 +1204,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   >
                     <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <ItemIcon type={item.icon} />
+                        <ItemIcon type={item.icon} appName={item.name} />
                         <span className="text-foreground truncate font-medium">{item.name}</span>
                       </div>
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
@@ -1094,7 +1269,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ItemIcon type={app.icon} muted />
+                      <ItemIcon type={app.icon} muted appName={app.name} />
                       <span className="text-foreground truncate font-medium">{app.name}</span>
                     </div>
                     {details && (
@@ -1189,20 +1364,379 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   }
 
   const isSearching = searchQuery.trim().length > 0
+  const searchLower = searchQuery.toLowerCase().trim()
+
+  // Helper function to normalize text for searching (replace special chars with spaces)
+  const normalizeForSearch = (text: string): string => {
+    return text.toLowerCase().replace(/[\/\-_]/g, ' ').replace(/\s+/g, ' ').trim()
+  }
+
+  // Helper function to check if text matches search query
+  const matchesSearch = (text: string): boolean => {
+    if (!text) return false
+    const normalizedText = normalizeForSearch(text)
+    const normalizedSearch = normalizeForSearch(searchLower)
+    
+    // Check if search query is contained in normalized text
+    if (normalizedText.includes(normalizedSearch)) return true
+    
+    // Check if all words in search query appear in text
+    const searchWords = normalizedSearch.split(/\s+/).filter(w => w.length > 0)
+    if (searchWords.length > 1) {
+      return searchWords.every(word => normalizedText.includes(word))
+    }
+    
+    return normalizedText.includes(normalizedSearch)
+  }
+
+  // Helper function to calculate relevance score (higher = better match)
+  const getRelevanceScore = (name: string, keywords: string[] = []): number => {
+    const nameLower = name.toLowerCase()
+    const normalizedName = normalizeForSearch(name)
+    const normalizedSearch = normalizeForSearch(searchLower)
+    let score = 0
+    
+    // Exact match gets highest score
+    if (nameLower === searchLower) return 1000
+    
+    // Normalized exact match (e.g., "if else" matches "If/Else")
+    if (normalizedName === normalizedSearch) return 900
+    
+    // Check if all words in search query appear in name (for multi-word searches)
+    const searchWords = normalizedSearch.split(/\s+/).filter(w => w.length > 0)
+    if (searchWords.length > 1) {
+      const allWordsMatch = searchWords.every(word => normalizedName.includes(word))
+      if (allWordsMatch) score += 600
+    }
+    
+    // Word boundary match (e.g., "if" in "If/Else") gets high score
+    const wordBoundaryRegex = new RegExp(`\\b${searchLower}\\b`, 'i')
+    if (wordBoundaryRegex.test(name)) score += 500
+    
+    // Normalized contains match
+    if (normalizedName.includes(normalizedSearch)) score += 400
+    
+    // Starts with search query
+    if (nameLower.startsWith(searchLower)) score += 300
+    
+    // Contains search query
+    if (nameLower.includes(searchLower)) score += 100
+    
+    // Check keywords for word boundary matches
+    keywords.forEach(keyword => {
+      const keywordLower = keyword.toLowerCase()
+      const normalizedKeyword = normalizeForSearch(keyword)
+      if (keywordLower === searchLower) score += 200
+      if (normalizedKeyword === normalizedSearch) score += 180
+      if (wordBoundaryRegex.test(keywordLower)) score += 150
+      if (normalizedKeyword.includes(normalizedSearch)) score += 120
+      if (keywordLower.includes(searchLower)) score += 50
+    })
+    
+    return score
+  }
+
+  // Helper function to check if any keyword matches
+  const matchesKeywords = (keywords: string[]): boolean => {
+    if (!keywords || keywords.length === 0) return false
+    return keywords.some((keyword) => matchesSearch(keyword))
+  }
+
+  // Comprehensive search function
+  const getSearchResults = () => {
+    if (!isSearching) {
+      return {
+        apps: [],
+        actions: [],
+        triggers: [],
+        coreActions: [],
+        otherItems: [],
+      }
+    }
+
+    const matchingApps: Array<{ name: string; icon: string }> = []
+    const matchingActions: Array<{ appName: string; actionName: string; description: string; groupName: string }> = []
+    const matchingTriggers: Array<{ appName: string; triggerName: string; description: string }> = []
+    const matchingCoreActions: Array<{ name: string; icon: string; category: string; description: string }> = []
+    const matchingOtherItems: Array<{ name: string; icon: string; category: string }> = []
+
+    // First, collect all apps that match the search query
+    const matchingAppNames = new Set<string>()
+    
+    // Search through all categories from nodes.json
+    if (nodesData.categories) {
+      nodesData.categories.forEach((category) => {
+        category.items?.forEach((item) => {
+          const itemName = item.name.toLowerCase()
+          const itemKeywords = item.keywords || []
+          
+          // Check if app name or keywords match
+          if (matchesSearch(item.name) || matchesKeywords(itemKeywords)) {
+            if (category.name === "Apps") {
+              // Check if app already exists in matchingApps
+              if (!matchingApps.find((app) => app.name === item.name)) {
+                matchingApps.push({
+                  name: item.name,
+                  icon: item.icon || "box",
+                })
+                matchingAppNames.add(item.name)
+              }
+            } else {
+              // Other categories (Core Nodes, Logic, Utils, etc.)
+              matchingOtherItems.push({
+                name: item.name,
+                icon: item.icon || "box",
+                category: category.name,
+              })
+            }
+          }
+        })
+      })
+    }
+
+    // Check if search query primarily matches an app name (exact or very close match)
+    // If it does, we'll skip showing actions from matching apps (unless action itself matches)
+    const isAppNameSearch = matchingAppNames.size > 0 && 
+      Array.from(matchingAppNames).some(appName => {
+        const appNameLower = appName.toLowerCase()
+        // Check if search is an exact match or very close (app name starts with search or vice versa)
+        return appNameLower === searchLower || 
+               appNameLower.startsWith(searchLower) || 
+               searchLower.startsWith(appNameLower)
+      })
+
+    // Search through appDetails for actions
+    // If searching for an app name, skip actions from that app
+    // Otherwise, show actions that match the search
+    Object.entries(appDetails).forEach(([appName, details]) => {
+      const appMatchedAsName = isAppNameSearch && matchingAppNames.has(appName)
+      
+      // If app matched as a name, skip all its actions/triggers
+      if (appMatchedAsName) {
+        return
+      }
+
+      // Search triggers
+      details.triggers?.forEach((trigger) => {
+        if (matchesSearch(trigger.name) || matchesSearch(trigger.description || "")) {
+          matchingTriggers.push({
+            appName,
+            triggerName: trigger.name,
+            description: trigger.description || "",
+          })
+          
+          // Only add to matchingApps if it's actually an app (exists in allApps)
+          const isActualApp = [...popularApps, ...otherApps].some((app) => app.name === appName)
+          if (isActualApp && !matchingApps.find((app) => app.name === appName)) {
+            const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
+            matchingApps.push({
+              name: appName,
+              icon: appItem?.icon || "box",
+            })
+          }
+        }
+      })
+
+      // Search actions
+      details.actionGroups?.forEach((group) => {
+        group.items?.forEach((action) => {
+          if (matchesSearch(action.name) || matchesSearch(action.description || "")) {
+            matchingActions.push({
+              appName,
+              actionName: action.name,
+              description: action.description || "",
+              groupName: group.name,
+            })
+            
+            // Only add to matchingApps if it's actually an app (exists in allApps)
+            const isActualApp = [...popularApps, ...otherApps].some((app) => app.name === appName)
+            if (isActualApp && !matchingApps.find((app) => app.name === appName)) {
+              const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
+              matchingApps.push({
+                name: appName,
+                icon: appItem?.icon || "box",
+              })
+            }
+          }
+        })
+      })
+    })
+
+    // Search through StackAI tools (core actions)
+    if (nodesData.stackAITools) {
+      Object.entries(nodesData.stackAITools).forEach(([categoryName, tools]) => {
+        if (Array.isArray(tools)) {
+          tools.forEach((tool: any) => {
+            if (matchesSearch(tool.name) || matchesKeywords(tool.keywords || [])) {
+              matchingCoreActions.push({
+                name: tool.name,
+                icon: tool.icon || "box",
+                category: categoryName,
+                description: tool.description || "",
+              })
+            }
+          })
+        }
+      })
+    }
+
+    // Search through input items
+    if (nodesData.inputItems) {
+      nodesData.inputItems.forEach((item: any) => {
+        if (matchesSearch(item.name) || matchesKeywords(item.keywords || [])) {
+          matchingOtherItems.push({
+            name: item.name,
+            icon: item.icon || "box",
+            category: "Inputs",
+          })
+        }
+      })
+    }
+
+    // Search through output items
+    if (nodesData.outputItems) {
+      nodesData.outputItems.forEach((item: any) => {
+        if (matchesSearch(item.name) || matchesKeywords(item.keywords || [])) {
+          matchingOtherItems.push({
+            name: item.name,
+            icon: item.icon || "box",
+            category: "Outputs",
+          })
+        }
+      })
+    }
+
+    // Search through built-in triggers
+    if (nodesData.builtInTriggers) {
+      nodesData.builtInTriggers.forEach((trigger: any) => {
+        if (matchesSearch(trigger.name) || matchesKeywords(trigger.keywords || [])) {
+          matchingTriggers.push({
+            appName: "Built-in",
+            triggerName: trigger.name,
+            description: "",
+          })
+        }
+      })
+    }
+
+    // Search through app triggers
+    // Skip app triggers that match app names when doing an app name search
+    if (nodesData.appTriggers) {
+      nodesData.appTriggers.forEach((trigger: any) => {
+        // Skip if this trigger name matches an app name and we're doing an app name search
+        if (isAppNameSearch && matchingAppNames.has(trigger.name)) {
+          return
+        }
+        
+        if (matchesSearch(trigger.name) || matchesKeywords(trigger.keywords || [])) {
+          matchingTriggers.push({
+            appName: trigger.name,
+            triggerName: trigger.name,
+            description: "",
+          })
+        }
+      })
+    }
+
+    // Search through popular tools
+    if (nodesData.popularTools) {
+      nodesData.popularTools.forEach((tool: any) => {
+        if (matchesSearch(tool.name) || matchesKeywords(tool.keywords || [])) {
+          matchingOtherItems.push({
+            name: tool.name,
+            icon: tool.icon || "box",
+            category: tool.category || "Popular",
+          })
+        }
+      })
+    }
+
+    // Deduplicate otherItems by name and category
+    const uniqueOtherItems = matchingOtherItems.filter((item, index, self) =>
+      index === self.findIndex((t) => t.name === item.name && t.category === item.category)
+    )
+
+    // Sort otherItems by relevance score
+    const sortedOtherItems = [...uniqueOtherItems].sort((a, b) => {
+      // Get keywords from nodes.json for better scoring
+      let aKeywords: string[] = []
+      let bKeywords: string[] = []
+      
+      // Find keywords from nodes.json
+      if (nodesData.categories) {
+        nodesData.categories.forEach(category => {
+          category.items?.forEach(item => {
+            if (item.name === a.name) aKeywords = item.keywords || []
+            if (item.name === b.name) bKeywords = item.keywords || []
+          })
+        })
+      }
+      
+      // Also check popularTools
+      if (nodesData.popularTools) {
+        nodesData.popularTools.forEach((tool: any) => {
+          if (tool.name === a.name) aKeywords = tool.keywords || []
+          if (tool.name === b.name) bKeywords = tool.keywords || []
+        })
+      }
+      
+      const aScore = getRelevanceScore(a.name, aKeywords)
+      const bScore = getRelevanceScore(b.name, bKeywords)
+      
+      // Higher score comes first
+      return bScore - aScore
+    })
+
+    // Deduplicate actions - if an action name appears in coreActions, remove it from actions
+    const coreActionNames = new Set(matchingCoreActions.map(action => action.name.toLowerCase()))
+    const uniqueActions = matchingActions.filter(action => 
+      !coreActionNames.has(action.actionName.toLowerCase())
+    )
+
+    // Sort apps by relevance score
+    const sortedApps = [...matchingApps].sort((a, b) => {
+      // Get keywords from nodes.json for better scoring
+      let aKeywords: string[] = []
+      let bKeywords: string[] = []
+      
+      // Find keywords from nodes.json
+      if (nodesData.categories) {
+        nodesData.categories.forEach(category => {
+          if (category.name === "Apps") {
+            category.items?.forEach(item => {
+              if (item.name === a.name) aKeywords = item.keywords || []
+              if (item.name === b.name) bKeywords = item.keywords || []
+            })
+          }
+        })
+      }
+      
+      const aScore = getRelevanceScore(a.name, aKeywords)
+      const bScore = getRelevanceScore(b.name, bKeywords)
+      
+      // Higher score comes first
+      return bScore - aScore
+    })
+
+    return {
+      apps: sortedApps,
+      actions: uniqueActions,
+      triggers: matchingTriggers,
+      coreActions: matchingCoreActions,
+      otherItems: sortedOtherItems,
+    }
+  }
+
+  const searchResults = getSearchResults()
 
   const filteredCategories = isSearching
-    ? categories
-        .map((cat) => ({
-          ...cat,
-          items: cat.items.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())),
-        }))
-        .filter((cat) => cat.items.length > 0)
+    ? categories.filter((cat) => cat.name === activeTab)
     : categories.filter((cat) => cat.name === activeTab)
 
   return (
     <TooltipProvider delayDuration={100}>
       <div className={`bg-card rounded-xl border border-border shadow-lg flex overflow-hidden group ${
-        source === "sidebar" ? "w-[280px] h-[520px]" : "w-[380px] h-[280px]"
+        source === "sidebar" ? "w-[280px] h-[520px]" : "w-[420px] h-[300px]"
       }`}>
         {/* Sidebar with category tabs */}
         <div className="w-12 border-border/30 flex flex-col items-center py-2 flex-shrink-0 leading-3 h-auto border-r gap-0.5 relative">
@@ -1229,11 +1763,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 }`}
               >
-                <Star className="w-4 h-4" />
+                <Home className={`w-4 h-4 ${activeTab === "Popular" ? "fill-current" : ""}`} />
               </button>
             </TooltipTrigger>
             <TooltipContent
-              side="right"
+              side={source === "sidebar" ? "right" : "left"}
               align="center"
               sideOffset={0}
               avoidCollisions={false}
@@ -1247,9 +1781,13 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           {categoryTabs.map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.key
-            const category = categories.find((c) => c.name === tab.key)
-            const hasSearchMatch =
-              isSearching && category?.items.some((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            const hasSearchMatch = isSearching && (
+              (tab.key === "Apps" && searchResults.apps.length > 0) ||
+              (tab.key === "Core Nodes" && searchResults.coreActions.length > 0) ||
+              (tab.key === "Triggers" && searchResults.triggers.length > 0) ||
+              (tab.key === "Logic" && searchResults.otherItems.some(item => item.category === "Logic")) ||
+              (tab.key === "Utils" && searchResults.otherItems.some(item => item.category === "Utils"))
+            )
 
             return (
               <Tooltip key={tab.key}>
@@ -1271,11 +1809,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className={`w-4 h-4 ${isActive ? "fill-current" : ""}`} />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
-                  side="right"
+                  side={source === "sidebar" ? "right" : "left"}
                   align="center"
                   sideOffset={0}
                   avoidCollisions={false}
@@ -1295,14 +1833,13 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           <div className="sticky top-0 z-10 bg-background border-b border-border/30 flex-shrink-0">
             <div className="flex items-center gap-2 px-3 py-2.5">
               <div className={`relative ${source === "sidebar" ? "flex-1" : "flex-1"}`}>
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search nodes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
-                  className={`w-full pl-8 ${searchQuery ? "pr-8" : source === "sidebar" ? "pr-10" : "pr-8"} py-1 text-sm bg-muted/50 rounded-lg border border-border focus:outline-none focus:ring-1 focus:ring-ring`}
+                  className={`w-full ${searchQuery ? "pl-3 pr-8" : source === "sidebar" ? "pl-3 pr-10" : "pl-3 pr-8"} py-1 text-sm bg-muted/50 rounded-lg border border-border focus:outline-none focus:ring-1 focus:ring-ring`}
                 />
                 {searchQuery && (
                   <button
@@ -1352,6 +1889,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
           {/* Items list */}
           <div
+            ref={scrollContainerRef}
             className={`flex-1 overflow-y-auto nowheel my-2 py-[0] node-selector-scrollable ${source === "sidebar" ? "node-selector-scrollable-thin" : ""}`}
             onWheel={(e) => e.stopPropagation()}
           >
@@ -1364,17 +1902,501 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 renderCoreView()
               ) : activeTab === "Triggers" && !isSearching ? (
                 renderTriggersView()
+              ) : isSearching ? (
+                <>
+                  {/* Core Actions Section */}
+                  {searchResults.coreActions.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Core Actions
+                      </div>
+                      {searchResults.coreActions.map((action) => {
+                        const uniqueKey = `core-action-${action.name}`
+                        const actionData: SelectedAction = {
+                          appName: "StackAI",
+                          actionName: action.name,
+                          description: action.description,
+                          type: "action",
+                        }
+
+                        if (source === "sidebar") {
+                          return (
+                            <DraggableItem key={uniqueKey} data={actionData} className="group/item">
+                              <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                  <div className="flex-shrink-0">
+                                    <ItemIcon type={action.icon} />
+                                  </div>
+                                  <span className="text-sm font-medium truncate min-w-0">{action.name}</span>
+                                </div>
+                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                              </div>
+                            </DraggableItem>
+                          )
+                        }
+
+                        return (
+                          <DraggableItem
+                            key={uniqueKey}
+                            data={actionData}
+                            onClick={() => handleActionClick("StackAI", { name: action.name, description: action.description })}
+                            className="group/item"
+                          >
+                            <div className={`flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                              selectedAction === action.name ? "bg-accent/40" : ""
+                            }`}>
+                              <ItemIcon type={action.icon} />
+                              <span className="text-foreground truncate font-medium">{action.name}</span>
+                            </div>
+                          </DraggableItem>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Nodes Section (Logic, Utils, Inputs, Outputs) - Show before Apps for better relevance */}
+                  {searchResults.otherItems.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Nodes
+                      </div>
+                      {searchResults.otherItems.map((item, index) => {
+                        const uniqueKey = `other-${item.category}-${item.name}-${index}`
+                        const actionData: SelectedAction = {
+                          appName: item.name,
+                          actionName: item.name,
+                          description: nodeDescriptions[item.name] || `${item.name}`,
+                          type: "action",
+                        }
+
+                        if (source === "sidebar") {
+                          return (
+                            <DraggableItem key={uniqueKey} data={actionData} className="group/item">
+                              <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                  <div className="flex-shrink-0">
+                                    <ItemIcon type={item.icon} />
+                                  </div>
+                                  <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                </div>
+                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                              </div>
+                            </DraggableItem>
+                          )
+                        }
+
+                        return (
+                          <DraggableItem
+                            key={uniqueKey}
+                            data={actionData}
+                            onClick={() => {
+                              const actionData: SelectedAction = {
+                                appName: item.name,
+                                actionName: item.name,
+                                description: nodeDescriptions[item.name] || `${item.name}`,
+                                type: "action",
+                              }
+                              onSelectAction?.(actionData)
+                            }}
+                            className="group/item"
+                          >
+                            <div className={`flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                              selectedAction === item.name ? "bg-accent/40" : ""
+                            }`}>
+                              <ItemIcon type={item.icon} />
+                              <span className="text-foreground truncate font-medium">{item.name}</span>
+                            </div>
+                          </DraggableItem>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Apps Section */}
+                  {searchResults.apps.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Apps
+                      </div>
+                      {searchResults.apps.map((app) => {
+                        const uniqueKey = `search-app-${app.name}`
+                        const details = appDetails[app.name]
+                        const actionData: SelectedAction = {
+                          appName: app.name,
+                          actionName: app.name,
+                          description: nodeDescriptions[app.name] || `${app.name} app`,
+                          type: "action",
+                        }
+
+                        if (source === "sidebar") {
+                          return (
+                            <DraggableItem key={uniqueKey} data={actionData} className="group/item">
+                              <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                  <div className="flex-shrink-0">
+                                    <ItemIcon type={app.icon} appName={app.name} />
+                                  </div>
+                                  <span className="text-sm font-medium truncate min-w-0">{app.name}</span>
+                                </div>
+                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                              </div>
+                            </DraggableItem>
+                          )
+                        }
+
+                        return (
+                          <div key={uniqueKey} className="group/item">
+                            <div
+                              onClick={() => handleItemClick("Apps", { name: app.name, icon: app.icon })}
+                              className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                selectedAction === app.name && !details ? "bg-accent/40" : ""
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                <ItemIcon type={app.icon} appName={app.name} />
+                                <span className="text-sm font-medium">{app.name}</span>
+                              </div>
+                              {details && (
+                                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Actions by App Section */}
+                  {searchResults.actions.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Actions
+                      </div>
+                      {Object.entries(
+                        searchResults.actions.reduce((acc, action) => {
+                          if (!acc[action.appName]) {
+                            acc[action.appName] = []
+                          }
+                          acc[action.appName].push(action)
+                          return acc
+                        }, {} as Record<string, typeof searchResults.actions>)
+                      ).map(([appName, actions]) => {
+                        const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
+                        return (
+                          <div key={`actions-${appName}`} className="mb-3">
+                            <div className="px-3 py-1 flex items-center gap-2 text-sm font-light text-muted-foreground">
+                              <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                              <span className="lowercase">{appName}</span>
+                            </div>
+                            <div className="space-y-0.5 px-2 pl-6">
+                              {actions.map((action) => {
+                                const uniqueKey = `action-${appName}-${action.actionName}`
+                                const actionData: SelectedAction = {
+                                  appName: appName,
+                                  actionName: action.actionName,
+                                  description: action.description,
+                                  type: "action",
+                                }
+
+                                if (source === "sidebar") {
+                                  return (
+                                    <DraggableItem key={uniqueKey} data={actionData} className="group/item">
+                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                          <div className="flex-shrink-0">
+                                            <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                                          </div>
+                                          <span className="text-sm font-medium truncate min-w-0">{action.actionName}</span>
+                                        </div>
+                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                      </div>
+                                    </DraggableItem>
+                                  )
+                                }
+
+                                return (
+                                  <DraggableItem
+                                    key={uniqueKey}
+                                    data={actionData}
+                                    onClick={() => handleActionClick(appName, { name: action.actionName, description: action.description })}
+                                    className="group/item"
+                                  >
+                                    <div className={`flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                      selectedAction === action.actionName ? "bg-accent/40" : ""
+                                    }`}>
+                                      <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                                      <span className="text-foreground truncate font-medium">{action.actionName}</span>
+                                    </div>
+                                  </DraggableItem>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Triggers Section */}
+                  {searchResults.triggers.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Triggers
+                      </div>
+                      {Object.entries(
+                        searchResults.triggers.reduce((acc, trigger) => {
+                          if (!acc[trigger.appName]) {
+                            acc[trigger.appName] = []
+                          }
+                          acc[trigger.appName].push(trigger)
+                          return acc
+                        }, {} as Record<string, typeof searchResults.triggers>)
+                      ).map(([appName, triggers]) => {
+                        const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
+                        return (
+                          <div key={`triggers-${appName}`} className="mb-3">
+                            <div className="px-3 py-1 flex items-center gap-2 text-sm font-light text-muted-foreground">
+                              <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                              <span className="lowercase">{appName}</span>
+                            </div>
+                            <div className="space-y-0.5 px-2 pl-6">
+                              {triggers.map((trigger) => {
+                                const uniqueKey = `trigger-${appName}-${trigger.triggerName}`
+                                const triggerData: SelectedAction = {
+                                  appName: appName,
+                                  actionName: trigger.triggerName,
+                                  description: trigger.description,
+                                  type: "trigger",
+                                }
+
+                                if (source === "sidebar") {
+                                  return (
+                                    <DraggableItem key={uniqueKey} data={triggerData} className="group/item">
+                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                          <div className="flex-shrink-0">
+                                            <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                                          </div>
+                                          <span className="text-sm font-medium truncate min-w-0">{trigger.triggerName}</span>
+                                        </div>
+                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                      </div>
+                                    </DraggableItem>
+                                  )
+                                }
+
+                                return (
+                                  <DraggableItem
+                                    key={uniqueKey}
+                                    data={triggerData}
+                                    onClick={() => handleTriggerClick(appName, { name: trigger.triggerName, description: trigger.description })}
+                                    className="group/item"
+                                  >
+                                    <div className={`flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                      selectedAction === trigger.triggerName ? "bg-accent/40" : ""
+                                    }`}>
+                                      <ItemIcon type={appItem?.icon || "box"} appName={appName} />
+                                      <span className="text-foreground truncate font-medium">{trigger.triggerName}</span>
+                                    </div>
+                                  </DraggableItem>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* No results message */}
+                  {searchResults.apps.length === 0 && 
+                   searchResults.actions.length === 0 && 
+                   searchResults.triggers.length === 0 && 
+                   searchResults.coreActions.length === 0 && 
+                   searchResults.otherItems.length === 0 && (
+                    <div className="px-3 py-8 text-center text-sm text-muted-foreground">
+                      No results found for "{searchQuery}"
+                    </div>
+                  )}
+                </>
               ) : (
                 <>
                   {filteredCategories.map((category) => (
                     <div key={category.name}>
-                      {/* Category header (always shown) */}
-                      <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
-                        {category.name === "Apps" ? "Popular apps" : category.name}
-                      </div>
+                      {category.name === "Apps" ? (
+                        <>
+                          {isSearching ? (
+                            // When searching, show all matching apps
+                            category.items.map((item) => {
+                              const uniqueKey = `search-${item.name}`
+                            const details = appDetails[item.name]
+                            const actionData: SelectedAction = {
+                              appName: item.name,
+                              actionName: item.name,
+                              description: nodeDescriptions[item.name] || `${item.name} app`,
+                              type: "action",
+                            }
 
-                      {/* Category items */}
-                      {category.items.map((item) => {
+                            if (source === "sidebar") {
+                              return (
+                                <DraggableItem
+                                  key={uniqueKey}
+                                  data={actionData}
+                                  className="group/item"
+                                >
+                                  <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                    <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                      <div className="flex-shrink-0">
+                                        <ItemIcon type={item.icon} />
+                                      </div>
+                                      <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                    </div>
+                                    <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                  </div>
+                                </DraggableItem>
+                              )
+                            }
+
+                            return (
+                              <div key={uniqueKey} className="group/item">
+                                <div
+                                  onClick={() => handleItemClick(category.name, item)}
+                                  className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                    selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                    <ItemIcon type={item.icon} />
+                                    <span className="text-sm font-medium">{item.name}</span>
+                                  </div>
+                                  {details && (
+                                    <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                  )}
+                                </div>
+                              </div>
+                            )
+                          })
+                          ) : (
+                            <>
+                              {/* Popular apps section */}
+                              <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
+                                Popular apps
+                              </div>
+                              {popularApps.map((item) => {
+                                const uniqueKey = `popular-${item.name}`
+                                const details = appDetails[item.name]
+                                const actionData: SelectedAction = {
+                                  appName: item.name,
+                                  actionName: item.name,
+                                  description: nodeDescriptions[item.name] || `${item.name} app`,
+                                  type: "action",
+                                }
+
+                                if (source === "sidebar") {
+                                  return (
+                                    <DraggableItem
+                                      key={uniqueKey}
+                                      data={actionData}
+                                      className="group/item"
+                                    >
+                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                          <div className="flex-shrink-0">
+                                            <ItemIcon type={item.icon} />
+                                          </div>
+                                          <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                        </div>
+                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                      </div>
+                                    </DraggableItem>
+                                  )
+                                }
+
+                                return (
+                                  <div key={uniqueKey} className="group/item">
+                                    <div
+                                      onClick={() => handleItemClick(category.name, item)}
+                                      className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                        selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                      }`}
+                                    >
+                                      <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                        <ItemIcon type={item.icon} />
+                                        <span className="text-sm font-medium">{item.name}</span>
+                                      </div>
+                                      {details && (
+                                        <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                              
+                              {/* Other apps section */}
+                              <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase mt-2">
+                                Other apps
+                              </div>
+                              {otherApps.map((item) => {
+                                const uniqueKey = `other-${item.name}`
+                                const details = appDetails[item.name]
+                                const actionData: SelectedAction = {
+                                  appName: item.name,
+                                  actionName: item.name,
+                                  description: nodeDescriptions[item.name] || `${item.name} app`,
+                                  type: "action",
+                                }
+
+                                if (source === "sidebar") {
+                                  return (
+                                    <DraggableItem
+                                      key={uniqueKey}
+                                      data={actionData}
+                                      className="group/item"
+                                    >
+                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                          <div className="flex-shrink-0">
+                                            <ItemIcon type={item.icon} />
+                                          </div>
+                                          <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                        </div>
+                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                      </div>
+                                    </DraggableItem>
+                                  )
+                                }
+
+                                return (
+                                  <div key={uniqueKey} className="group/item">
+                                    <div
+                                      onClick={() => handleItemClick(category.name, item)}
+                                      className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                        selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                      }`}
+                                    >
+                                      <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                        <ItemIcon type={item.icon} />
+                                        <span className="text-sm font-medium">{item.name}</span>
+                                      </div>
+                                      {details && (
+                                        <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {/* Category header (always shown) */}
+                          <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
+                            {category.name}
+                          </div>
+
+                          {/* Category items */}
+                          {category.items.map((item) => {
                         const uniqueKey = `${category.name}-${item.name}`
                         const details = appDetails[item.name]
                         const isExpanded = false
@@ -1425,74 +2447,10 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           </div>
                         )
                       })}
+                        </>
+                      )}
                     </div>
                   ))}
-                  {/* More apps section - only show for Apps category */}
-                  {filteredCategories.some(cat => cat.name === "Apps") && !isSearching && (
-                    <div>
-                      <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
-                        More apps
-                      </div>
-                      {[
-                        { name: "Notion", icon: "box" },
-                        { name: "Trello", icon: "box" },
-                        { name: "Asana", icon: "box" },
-                        { name: "Jira", icon: "box" },
-                        { name: "GitHub", icon: "code" },
-                        { name: "GitLab", icon: "code" },
-                        { name: "Bitbucket", icon: "code" },
-                        { name: "Dropbox", icon: "box" },
-                        { name: "OneDrive", icon: "box" },
-                        { name: "Zoom", icon: "mic" },
-                        { name: "Teams", icon: "message" },
-                        { name: "Discord", icon: "message" },
-                      ].map((item) => {
-                        const actionData: SelectedAction = {
-                          appName: item.name,
-                          actionName: item.name,
-                          description: `${item.name} app`,
-                          type: "action",
-                        }
-
-                        if (source === "sidebar") {
-                          return (
-                            <DraggableItem
-                              key={item.name}
-                              data={actionData}
-                              className="group/item"
-                            >
-                              <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                                <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
-                                  <div className="flex-shrink-0">
-                                    <ItemIcon type={item.icon} />
-                                  </div>
-                                  <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
-                                </div>
-                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                              </div>
-                            </DraggableItem>
-                          )
-                        }
-
-                        return (
-                          <div key={item.name} className="group/item">
-                            <div
-                              onClick={() => handleItemClick("Apps", item)}
-                              className="flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
-                            >
-                              <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
-                                <ItemIcon type={item.icon} />
-                                <span className="text-sm font-medium">{item.name}</span>
-                              </div>
-                              {appDetails[item.name] && (
-                                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
-                              )}
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
                 </>
               )}
             </div>
