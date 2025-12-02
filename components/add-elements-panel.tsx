@@ -402,7 +402,9 @@ const appDetails: Record<string, AppDetail> = {
 
 const nodeDescriptions: Record<string, string> = {
   // Inputs
-  Input: "Accept text or data input from users",
+  "Text Input": "Accept text or data input from users",
+  Text: "Accept text or data input from users", // Keep for backward compatibility
+  Input: "Accept text or data input from users", // Keep for backward compatibility
   Files: "Upload and process files in your workflow",
   Trigger: "Start workflow based on external events",
   URL: "Fetch data from a URL endpoint",
@@ -495,14 +497,14 @@ const categories: Category[] = [
 ]
 
 const inputItems = [
-  { name: "Input", icon: "pencil" },
+  { name: "Text Input", icon: "pencil" },
   { name: "Files", icon: "file" },
   { name: "URL", icon: "link" },
   { name: "Audio", icon: "mic" },
 ]
 
 const outputItems = [
-  { name: "Output", icon: "pencil" },
+  { name: "Output Text", icon: "pencil" },
   { name: "Audio", icon: "mic" },
   { name: "Template", icon: "template" },
 ]
