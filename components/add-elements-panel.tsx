@@ -914,7 +914,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
       <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-0.5`}>
         {/* Popular Tools Column */}
         <div>
-          <h4 className="text-muted-foreground mb-2 text-sm font-light">Popular tools</h4>
+          <h4 className="text-muted-foreground mb-2 text-sm font-light">Popular</h4>
           <div className="space-y-0.5">
             {popularTools.map((tool) => {
               const actionData: SelectedAction = {
