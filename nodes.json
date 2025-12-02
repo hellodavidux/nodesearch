@@ -161,10 +161,8 @@
   "builtInTriggers": [
     { "name": "Scheduled Execution", "icon": "clock", "keywords": ["scheduled", "execution", "cron", "timer", "schedule"] },
     { "name": "Webhook", "icon": "webhook", "keywords": ["webhook", "api", "http", "endpoint", "trigger"] },
-    { "name": "User Text", "icon": "pencil", "keywords": ["user", "text", "input", "trigger", "start"] },
-    { "name": "Files", "icon": "file", "keywords": ["file", "upload", "trigger", "input"] },
-    { "name": "Audio", "icon": "mic", "keywords": ["audio", "sound", "voice", "trigger", "record"] },
-    { "name": "URL", "icon": "link", "keywords": ["url", "link", "web", "trigger", "http"] }
+    { "name": "On Task Completion", "icon": "check", "keywords": ["task", "completion", "done", "finish", "complete"] },
+    { "name": "On Error", "icon": "alert", "keywords": ["error", "failure", "exception", "alert", "fail"] }
   ],
   "appTriggers": [
     { "name": "Airtable", "icon": "airtable", "keywords": ["airtable", "trigger", "database"] },

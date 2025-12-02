@@ -26,6 +26,7 @@ export type Category = {
   name: string
   icon: React.ComponentType<{ className?: string }>
   items: CategoryItem[]
+  utilsCategories?: Record<string, CategoryItem[]>
 }
 
 export type SelectedAction = {

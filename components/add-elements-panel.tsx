@@ -33,6 +33,8 @@ import {
   GripVertical,
   Pin,
   PinOff,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react"
 
 // Workflow icon component for Logic tab
@@ -55,8 +57,8 @@ const WorkflowIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-// Arrow Big Right Dash icon component for Actions & Outputs tab
-const ArrowBigRightDashIcon = ({ className }: { className?: string }) => (
+// Play icon component for Actions & Outputs tab
+const PlayIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -69,8 +71,7 @@ const ArrowBigRightDashIcon = ({ className }: { className?: string }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M11 9a1 1 0 0 0 1-1V5.061a1 1 0 0 1 1.811-.75l6.836 6.836a1.207 1.207 0 0 1 0 1.707l-6.836 6.835a1 1 0 0 1-1.811-.75V16a1 1 0 0 0-1-1H9a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z" />
-    <path d="M4 9v6" />
+    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
   </svg>
 )
 import SlackIconComponent from "./SlackIcon"
@@ -464,46 +465,43 @@ const categories: Category[] = [
     items: [], // Items handled separately - popular apps first, then all others alphabetically
   },
   {
-    name: "Logic",
-    icon: Code,
+    name: "Utils",
+    icon: Wrench,
     items: [
+      // Logic items first
       { name: "Python", icon: "python" },
       { name: "If/Else", icon: "branch" },
       { name: "AI Routing", icon: "branch" },
       { name: "Loop Subflow", icon: "repeat" },
     ],
-  },
-  {
-    name: "Utils",
-    icon: Wrench,
-    items: [
-      { name: "AI Agent", icon: "bot" },
-      { name: "Knowledge Base", icon: "book" },
-      { name: "StackAI Project", icon: "stackai" },
-      { name: "StackAI Project (Beta)", icon: "stackai" },
-      { name: "Sticky Note", icon: "sticky" },
-      { name: "Default Message", icon: "message" },
-      { name: "Delay", icon: "clock" },
-      { name: "Shared Memory", icon: "share" },
-      { name: "Dynamic Vector Store", icon: "database" },
-      { name: "Text-to-SQL", icon: "code" },
-      { name: "Search Tables", icon: "table" },
-      { name: "Search Data", icon: "code" },
-    ],
+    utilsCategories: {
+      "Miscellaneous": [
+        { name: "StackAI Project", icon: "stackai" },
+        { name: "StackAI Project (Beta)", icon: "stackai" },
+        { name: "Sticky Note", icon: "sticky" },
+        { name: "Default Message", icon: "message" },
+        { name: "Delay", icon: "clock" },
+        { name: "Shared Memory", icon: "share" },
+      ],
+      "Databases": [
+        { name: "Dynamic Vector Store", icon: "database" },
+        { name: "Text-to-SQL", icon: "code" },
+        { name: "Search Tables", icon: "table" },
+        { name: "Search Data", icon: "code" },
+      ],
+    },
   },
 ]
 
 const inputItems = [
   { name: "Input", icon: "pencil" },
   { name: "Files", icon: "file" },
-  { name: "Trigger", icon: "zap" },
   { name: "URL", icon: "link" },
   { name: "Audio", icon: "mic" },
 ]
 
 const outputItems = [
   { name: "Output", icon: "pencil" },
-  { name: "Action", icon: "play" },
   { name: "Audio", icon: "mic" },
   { name: "Template", icon: "template" },
 ]
@@ -511,10 +509,8 @@ const outputItems = [
 const builtInTriggers = [
   { name: "Scheduled Execution", icon: "clock" },
   { name: "Webhook", icon: "webhook" },
-  { name: "Input", icon: "pencil" },
-  { name: "Files", icon: "file" },
-  { name: "Audio", icon: "mic" },
-  { name: "URL", icon: "link" },
+  { name: "On Task Completion", icon: "check" },
+  { name: "On Error", icon: "alert" },
 ]
 
 const appTriggers = [
@@ -533,10 +529,10 @@ const appTriggers = [
 // Sidebar tab configuration with descriptions for tooltips
 const categoryTabs = [
   { name: "Triggers", key: "Triggers", icon: Zap },
-  { name: "Actions & Outputs", key: "Core Nodes", icon: ArrowBigRightDashIcon },
+  { name: "Inputs and Outputs", key: "Inputs and Outputs", icon: ArrowDownUp },
+  { name: "StackAI Tools", key: "Core Nodes", icon: StackAIIcon },
   { name: "Apps", key: "Apps", icon: Blocks },
-  { name: "Logic", key: "Logic", icon: WorkflowIcon },
-  { name: "Utils", key: "Utils", icon: Wrench },
+  { name: "Tools & Logic", key: "Utils", icon: Wrench },
 ]
 
 const popularApps = [
@@ -678,8 +674,6 @@ const popularTools = [
   { name: "If/Else", icon: "branch", category: "Logic" },
   { name: "Delay", icon: "clock", category: "Utils" },
   { name: "Text-to-SQL", icon: "code", category: "Utils" },
-  { name: "Output", icon: "pencil", category: "Outputs" },
-  { name: "Input", icon: "pencil", category: "Triggers" },
 ]
 
 // =============================================================================
@@ -691,15 +685,13 @@ const categoryDescriptions: Record<string, string> = {
   Triggers: "Start workflows with events and actions",
   "Core Nodes": "Essential AI and processing nodes",
   Apps: "Connect to external services",
-  Logic: "Control flow and conditions",
-  Utils: "Helper tools and utilities",
+  Utils: "Logic and utility tools",
 }
 
 const tabTooltips: Record<string, string> = {
   Popular: "Quick access to popular apps and tools",
   Triggers: "Start your workflow",
-  Logic: "Control flow and decisions",
-  Utils: "Utility functions",
+  Utils: "Logic and utility functions",
   Apps: "Third-party integrations",
   "Core Nodes": "Essential building blocks",
 }
@@ -736,6 +728,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   python: Code,
   branch: GitBranch,
   webhook: Webhook,
+  check: CheckCircle,
+  alert: AlertCircle,
 }
 
 function ItemIcon({ type, muted = false, appName }: { type: string; muted?: boolean; appName?: string }) {
@@ -1096,80 +1090,64 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
       return acc
     }, {} as Record<string, typeof coreTools>)
 
+    const topItems = [
+      { name: "AI Agent", icon: "bot" },
+      { name: "Knowledge Base", icon: "book" },
+    ]
+
     return (
     <div className="p-3 py-0">
         <div className="space-y-3">
-          {/* Output and Template at the top */}
+          {/* AI Agent and Knowledge Base at the top */}
           <div>
-            <div className="px-3 py-1 text-sm font-light text-muted-foreground mb-1">
-              <span>Outputs</span>
-            </div>
             <div className="space-y-0.5 px-2">
-              {source === "sidebar" ? (
-                <>
-                  <DraggableItem
-                    data={{
-                      appName: "Output",
-                      actionName: "Output",
-                      description: "Output node",
-                      type: "action",
-                    }}
-                    className="group/item"
-                  >
-                    <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                      <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
-                        <div className="flex-shrink-0">
-                          <ItemIcon type="pencil" />
+              {topItems.map((item) => {
+                const actionData: SelectedAction = {
+                  appName: item.name,
+                  actionName: item.name,
+                  description: nodeDescriptions[item.name] || `${item.name} node`,
+                  type: "action",
+                }
+                
+                if (source === "sidebar") {
+                  return (
+                    <DraggableItem
+                      key={item.name}
+                      data={actionData}
+                      className="group/item"
+                    >
+                      <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+                          <div className="flex-shrink-0">
+                            <ItemIcon type={item.icon} appName={item.name} />
+                          </div>
+                          <span className="text-foreground truncate font-medium min-w-0">{item.name}</span>
                         </div>
-                        <span className="text-foreground truncate font-medium min-w-0">Output</span>
+                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
                       </div>
-                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                    </div>
-                  </DraggableItem>
-                  <DraggableItem
-                    data={{
-                      appName: "Template",
-                      actionName: "Template",
-                      description: "Template node",
-                      type: "action",
-                    }}
-                    className="group/item"
-                  >
-                    <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                      <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
-                        <div className="flex-shrink-0">
-                          <ItemIcon type="template" />
-                        </div>
-                        <span className="text-foreground truncate font-medium min-w-0">Template</span>
-                      </div>
-                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                    </div>
-                  </DraggableItem>
-                </>
-              ) : (
-                <>
+                    </DraggableItem>
+                  )
+                }
+                
+                return (
                   <div
-                    onClick={() => handleItemClick("Core Nodes", { name: "Output", icon: "pencil" })}
-          className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
-        >
-                    <ItemIcon type="pencil" />
-                    <span className="text-foreground truncate font-medium">Output</span>
-        </div>
-        <div
-                    onClick={() => handleItemClick("Core Nodes", { name: "Template", icon: "template" })}
-          className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
-        >
-                    <ItemIcon type="template" />
-                    <span className="text-foreground truncate font-medium">Template</span>
-        </div>
-                </>
-              )}
-      </div>
-    </div>
+                    key={item.name}
+                    onClick={() => handleItemClick("Core Nodes", item)}
+                    className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                  >
+                    <ItemIcon type={item.icon} appName={item.name} />
+                    <span className="text-foreground truncate font-medium">{item.name}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
           {Object.entries(groupedTools).map(([category, tools]) => (
             <div key={category}>
-              <div className="px-3 py-1 text-sm font-light text-muted-foreground mb-1">
-                <span>{category}</span>
+              <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                <div className="px-3 text-sm font-light text-muted-foreground">
+                  <span>{category}</span>
+                </div>
               </div>
               <div className="space-y-0.5 px-2">
                 {tools.map((tool) => {
@@ -1315,6 +1293,100 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                       <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
                     )}
                   </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderInputsAndOutputsView = () => (
+    <div className="p-3 py-0">
+      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
+        {/* Inputs Column */}
+        <div>
+          <h4 className="text-muted-foreground mb-2 text-sm font-light">Inputs</h4>
+          <div className="space-y-0.5 px-0">
+            {inputItems.map((item) => {
+              const actionData: SelectedAction = {
+                appName: item.name,
+                actionName: item.name,
+                description: nodeDescriptions[item.name] || `${item.name} input`,
+                type: "action",
+              }
+              
+              if (source === "sidebar") {
+                return (
+                  <DraggableItem
+                    key={item.name}
+                    data={actionData}
+                    className="group/item"
+                  >
+                    <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                        <ItemIcon type={item.icon} appName={item.name} />
+                        <span className="text-foreground truncate font-medium">{item.name}</span>
+                      </div>
+                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
+                    </div>
+                  </DraggableItem>
+                )
+              }
+              
+              return (
+                <div
+                  key={item.name}
+                  onClick={() => handleItemClick("Inputs and Outputs", item)}
+                  className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                >
+                  <ItemIcon type={item.icon} appName={item.name} />
+                  <span className="text-foreground truncate font-medium">{item.name}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Outputs Column */}
+        <div>
+          <h4 className="text-muted-foreground mb-2 text-sm font-light">Outputs</h4>
+          <div className="space-y-0.5 px-0">
+            {outputItems.map((item) => {
+              const actionData: SelectedAction = {
+                appName: item.name,
+                actionName: item.name,
+                description: nodeDescriptions[item.name] || `${item.name} output`,
+                type: "action",
+              }
+              
+              if (source === "sidebar") {
+                return (
+                  <DraggableItem
+                    key={item.name}
+                    data={actionData}
+                    className="group/item"
+                  >
+                    <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                        <ItemIcon type={item.icon} appName={item.name} />
+                        <span className="text-foreground truncate font-medium">{item.name}</span>
+                      </div>
+                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
+                    </div>
+                  </DraggableItem>
+                )
+              }
+              
+              return (
+                <div
+                  key={item.name}
+                  onClick={() => handleItemClick("Inputs and Outputs", item)}
+                  className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                >
+                  <ItemIcon type={item.icon} appName={item.name} />
+                  <span className="text-foreground truncate font-medium">{item.name}</span>
                 </div>
               )
             })}
@@ -1487,6 +1559,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
       return {
         apps: [],
         actions: [],
+        knowledgeBaseActions: [],
         triggers: [],
         coreActions: [],
         otherItems: [],
@@ -1730,6 +1803,10 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
     // They're from different sources (StackAI vs apps like Gmail/Outlook)
     const uniqueActions = matchingActions
 
+    // Separate Knowledge Base actions from other app actions
+    const knowledgeBaseActions = uniqueActions.filter(action => action.appName === "Knowledge Base")
+    const regularAppActions = uniqueActions.filter(action => action.appName !== "Knowledge Base")
+
     // Sort apps by relevance score
     const sortedApps = [...matchingApps].sort((a, b) => {
       // Get keywords from nodes.json for better scoring
@@ -1757,7 +1834,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
     return {
       apps: sortedApps,
-      actions: uniqueActions,
+      actions: regularAppActions,
+      knowledgeBaseActions: knowledgeBaseActions,
       triggers: matchingTriggers,
       coreActions: matchingCoreActions,
       otherItems: sortedOtherItems,
@@ -1822,8 +1900,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
               (tab.key === "Apps" && searchResults.apps.length > 0) ||
               (tab.key === "Core Nodes" && searchResults.coreActions.length > 0) ||
               (tab.key === "Triggers" && searchResults.triggers.length > 0) ||
-              (tab.key === "Logic" && searchResults.otherItems.some(item => item.category === "Logic")) ||
-              (tab.key === "Utils" && searchResults.otherItems.some(item => item.category === "Utils"))
+              (tab.key === "Utils" && searchResults.otherItems.some(item => item.category === "Logic" || item.category === "Utils"))
             )
 
             return (
@@ -1939,6 +2016,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 renderCoreView()
               ) : activeTab === "Triggers" && !isSearching ? (
                 renderTriggersView()
+              ) : activeTab === "Inputs and Outputs" && !isSearching ? (
+                renderInputsAndOutputsView()
               ) : isSearching ? (
                 <>
                   {/* Core Actions Section */}
@@ -2103,6 +2182,58 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     </div>
                   )}
 
+                  {/* Knowledge Base Actions Section - Show before regular app actions */}
+                  {searchResults.knowledgeBaseActions && searchResults.knowledgeBaseActions.length > 0 && (
+                    <div className="mb-4">
+                      <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Knowledge Base
+                      </div>
+                      <div className="space-y-0.5 px-2 pl-6">
+                        {searchResults.knowledgeBaseActions?.map((action) => {
+                          const uniqueKey = `kb-action-${action.appName}-${action.actionName}`
+                          const actionData: SelectedAction = {
+                            appName: action.appName,
+                            actionName: action.actionName,
+                            description: action.description,
+                            type: "action",
+                          }
+
+                          if (source === "sidebar") {
+                            return (
+                              <DraggableItem key={uniqueKey} data={actionData} className="group/item">
+                                <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                  <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                    <div className="flex-shrink-0">
+                                      <ItemIcon type="book" />
+                                    </div>
+                                    <span className="text-sm font-medium truncate min-w-0">{action.actionName}</span>
+                                  </div>
+                                  <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                </div>
+                              </DraggableItem>
+                            )
+                          }
+
+                          return (
+                            <DraggableItem
+                              key={uniqueKey}
+                              data={actionData}
+                              onClick={() => handleActionClick(action.appName, { name: action.actionName, description: action.description })}
+                              className="group/item"
+                            >
+                              <div className={`flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                selectedAction === action.actionName ? "bg-accent/40" : ""
+                              }`}>
+                                <ItemIcon type="book" />
+                                <span className="text-foreground truncate font-medium">{action.actionName}</span>
+                              </div>
+                            </DraggableItem>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Actions by App Section */}
                   {searchResults.actions.length > 0 && (
                     <div className="mb-4">
@@ -2116,7 +2247,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           }
                           acc[action.appName].push(action)
                           return acc
-                        }, {} as Record<string, typeof searchResults.actions>)
+                        }, {} as Record<string, Array<{ appName: string; actionName: string; description: string; groupName: string }>>)
                       ).map(([appName, actions]) => {
                         const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
                         return (
@@ -2187,7 +2318,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           }
                           acc[trigger.appName].push(trigger)
                           return acc
-                        }, {} as Record<string, typeof searchResults.triggers>)
+                        }, {} as Record<string, Array<{ appName: string; triggerName: string; description: string }>>)
                       ).map(([appName, triggers]) => {
                         const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
                         return (
@@ -2248,6 +2379,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   {/* No results message */}
                   {searchResults.apps.length === 0 && 
                    searchResults.actions.length === 0 && 
+                   (searchResults.knowledgeBaseActions?.length || 0) === 0 &&
                    searchResults.triggers.length === 0 && 
                    searchResults.coreActions.length === 0 && 
                    searchResults.otherItems.length === 0 && (
@@ -2427,13 +2559,136 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                         </>
                       ) : (
                         <>
-                          {/* Category header (always shown) */}
-                          <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
-                            {category.name}
-                          </div>
+                          {/* Category header (always shown, except for Utils) */}
+                          {category.name !== "Utils" && (
+                            <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
+                              {category.name}
+                            </div>
+                          )}
 
-                          {/* Category items */}
-                          {category.items.map((item) => {
+                          {/* For Utils category, show Logic section first, then Utils section */}
+                          {category.name === "Utils" ? (
+                            <>
+                              {/* Logic section */}
+                              <div className="sticky top-0 z-10 bg-background py-1 my-0">
+                                <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                                  Logic
+                                </div>
+                              </div>
+                              {category.items.slice(0, 4).map((item) => {
+                                const uniqueKey = `${category.name}-${item.name}`
+                                const details = appDetails[item.name]
+                                const actionData: SelectedAction = {
+                                  appName: item.name,
+                                  actionName: item.name,
+                                  description: nodeDescriptions[item.name] || `${item.name} node`,
+                                  type: "action",
+                                }
+
+                                if (source === "sidebar") {
+                                  return (
+                                    <DraggableItem
+                                      key={uniqueKey}
+                                      data={actionData}
+                                      className="group/item"
+                                    >
+                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                          <div className="flex-shrink-0">
+                                            <ItemIcon type={item.icon} />
+                                          </div>
+                                          <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                        </div>
+                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                      </div>
+                                    </DraggableItem>
+                                  )
+                                }
+
+                                return (
+                                  <div key={uniqueKey} className="group/item">
+                                    <div
+                                      onClick={() => handleItemClick(category.name, item)}
+                                      className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                        selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                      }`}
+                                    >
+                                      <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                        <ItemIcon type={item.icon} />
+                                        <span className="text-sm font-medium">{item.name}</span>
+                                      </div>
+                                      {details && (
+                                        <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                              
+                              {/* Utils subcategories */}
+                              {category.utilsCategories && Object.entries(category.utilsCategories).map(([subCategoryName, items]) => (
+                                <div key={subCategoryName}>
+                                  <div className="sticky top-0 z-10 bg-background py-1 my-0 mt-2">
+                                    <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                                      {subCategoryName}
+                                    </div>
+                                  </div>
+                                  {items.map((item) => {
+                                    const uniqueKey = `${category.name}-${subCategoryName}-${item.name}`
+                                    const details = appDetails[item.name]
+                                    const actionData: SelectedAction = {
+                                      appName: item.name,
+                                      actionName: item.name,
+                                      description: nodeDescriptions[item.name] || `${item.name} node`,
+                                      type: "action",
+                                    }
+
+                                    if (source === "sidebar") {
+                                      return (
+                                        <DraggableItem
+                                          key={uniqueKey}
+                                          data={actionData}
+                                          className="group/item"
+                                        >
+                                          <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                            <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                              <div className="flex-shrink-0">
+                                                <ItemIcon type={item.icon} appName={item.name} />
+                                              </div>
+                                              <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                            </div>
+                                            <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                          </div>
+                                        </DraggableItem>
+                                      )
+                                    }
+
+                                    return (
+                                      <div key={uniqueKey} className="group/item">
+                                        <div
+                                          onClick={() => handleItemClick(category.name, item)}
+                                          className={`flex items-center justify-between py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                            selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                          }`}
+                                        >
+                                          <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                            <ItemIcon type={item.icon} appName={item.name} />
+                                            <span className="text-sm font-medium">{item.name}</span>
+                                          </div>
+                                          {details && (
+                                            <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                          )}
+                                        </div>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              {/* Category items for other categories */}
+                              {category.items.map((item) => {
                         const uniqueKey = `${category.name}-${item.name}`
                         const details = appDetails[item.name]
                         const isExpanded = false
@@ -2484,6 +2739,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           </div>
                         )
                       })}
+                              </>
+                            )}
                         </>
                       )}
                     </div>
