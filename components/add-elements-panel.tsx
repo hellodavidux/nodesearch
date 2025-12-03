@@ -968,10 +968,10 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
   const renderHomeView = () => (
     <div className="p-3 py-0">
-      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-0.5`}>
-        {/* Popular Tools Column */}
+      <div className="grid grid-cols-1 gap-0.5">
+        {/* Popular Tools Section */}
         <div>
-          <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+          <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
             <h4 className="text-muted-foreground text-sm font-light">Popular</h4>
           </div>
           <div className="space-y-0.5">
@@ -1027,9 +1027,9 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           </div>
         </div>
 
-        {/* Popular Apps Column */}
-        <div className={source === "sidebar" ? "mt-4" : ""}>
-          <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+        {/* Popular Apps Section */}
+        <div className="mt-4">
+          <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
             <h4 className="text-muted-foreground text-sm font-light">Most used apps</h4>
           </div>
           <div className="space-y-0.5">
@@ -1177,8 +1177,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
         <div className="grid grid-cols-1 gap-2">
           <div>
             {/* Core Nodes section */}
-            <div className="mb-4">
-              <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+            <div className="mb-1">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                 <div className="text-sm font-light text-muted-foreground">
                   <span>Core Nodes</span>
             </div>
@@ -1235,8 +1235,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
             {/* Email section */}
             {groupedTools["Email"] && (
-              <div className="mb-4">
-                <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+              <div className="mb-1">
+                <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     <span>Email</span>
                   </div>
@@ -1289,8 +1289,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
             {/* Web section */}
             {groupedTools["Web"] && (
-              <div className="mb-4">
-                <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+              <div className="mb-1">
+                <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     <span>Web</span>
                   </div>
@@ -1343,12 +1343,12 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
             {/* Image section */}
             {groupedTools["Image"] && (
-              <div className="mb-4">
-                <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+              <div className="mb-1">
+                <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     <span>Image</span>
-      </div>
-    </div>
+                  </div>
+                </div>
                 <div className="space-y-0.5 min-w-0 overflow-hidden">
                   {groupedTools["Image"].map((tool) => {
                     const actionData: SelectedAction = {
@@ -1397,8 +1397,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
             {/* Web Search section */}
             {groupedTools["Web Search"] && (
-              <div className="mb-4">
-                <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+              <div className="mb-1">
+                <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     <span>Web Search</span>
                   </div>
@@ -1451,8 +1451,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
             {/* Computer section */}
             {groupedTools["Computer"] && (
-              <div className="mb-4">
-                <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+              <div className="mb-1">
+                <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     <span>Computer</span>
                   </div>
@@ -1518,8 +1518,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
               .map((category) => {
                 const tools = groupedTools[category]
                 return (
-                  <div key={category} className="mb-4">
-                    <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                  <div key={category} className="mb-1">
+                    <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                       <div className="text-sm font-light text-muted-foreground">
                         <span>{category}</span>
                       </div>
@@ -1584,7 +1584,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
     return (
       <div className="p-3 py-0 min-w-0 overflow-hidden">
-        <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+        <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
           <h4 className="text-muted-foreground text-sm font-light">Outputs</h4>
         </div>
         <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
@@ -1957,12 +1957,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   const renderTriggersView = () => {
     return (
     <div className="p-3 py-0">
-      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
-          {/* Left Column */}
+      <div className="grid grid-cols-1 gap-4">
         <div>
             {/* Inputs Section */}
-            <div className="mb-4">
-              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+            <div className="mb-1">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                 <h4 className="text-muted-foreground text-sm font-light">Inputs</h4>
               </div>
           <div className="space-y-0.5 px-0">
@@ -2007,8 +2006,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
         </div>
 
             {/* Built-in Triggers Section */}
-            <div className="mb-4">
-              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+            <div className="mb-1">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                 <h4 className="text-muted-foreground text-sm font-light">Built-in Triggers</h4>
               </div>
           <div className="space-y-0.5 px-0">
@@ -2053,45 +2052,63 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           </div>
         </div>
 
-          {/* Right Column - App Triggers */}
-          {source !== "sidebar" && appTriggers.length > 0 && (
-        <div>
-              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+          {/* App Triggers Section */}
+          {appTriggers.length > 0 && (
+            <div className="mb-1">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                 <h4 className="text-muted-foreground text-sm font-light">App Triggers</h4>
               </div>
-          <div className="space-y-0.5 px-0">
-            {appTriggers.map((app) => {
-              const details = appDetails[app.name]
-              const actionData: SelectedAction = {
-                appName: app.name,
-                actionName: app.name,
-                description: `${app.name} app`,
+              <div className="space-y-0.5 px-0">
+                {appTriggers.map((app) => {
+                  const details = appDetails[app.name]
+                  const actionData: SelectedAction = {
+                    appName: app.name,
+                    actionName: app.name,
+                    description: `${app.name} app`,
                     type: "action",
-              }
-              
-              return (
-                <div
-                  key={app.name}
-                  className="group/item"
-                  onMouseEnter={(e) => e.stopPropagation()}
-                >
-                  <div
-                    onClick={() => handlePopularAppClick(app.name)}
-                    className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-xs cursor-pointer hover:bg-accent/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-2.5">
+                  }
+                  
+                  if (source === "sidebar") {
+                    return (
+                      <DraggableItem
+                        key={app.name}
+                        data={actionData}
+                        className="group/item"
+                      >
+                        <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-xs cursor-grab hover:bg-accent/50 transition-colors min-w-0">
+                          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                            <ItemIcon type={app.icon} muted appName={app.name} />
+                            <span className="text-sm text-foreground truncate font-medium">{app.name}</span>
+                          </div>
+                          <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
+                        </div>
+                      </DraggableItem>
+                    )
+                  }
+                  
+                  return (
+                    <div
+                      key={app.name}
+                      className="group/item"
+                      onMouseEnter={(e) => e.stopPropagation()}
+                    >
+                      <div
+                        onClick={() => handlePopularAppClick(app.name)}
+                        className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-xs cursor-pointer hover:bg-accent/50 transition-colors"
+                      >
+                        <div className="flex items-center gap-2.5">
                           <ItemIcon type={app.icon} muted appName={app.name} />
-                      <span className="text-sm text-foreground truncate font-medium">{app.name}</span>
+                          <span className="text-sm text-foreground truncate font-medium">{app.name}</span>
+                        </div>
+                        {details && (
+                          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
+                        )}
+                      </div>
                     </div>
-                    {details && (
-                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+                  )
+                })}
+              </div>
+            </div>
           )}
       </div>
     </div>
@@ -2103,7 +2120,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
       <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
         {/* Inputs Column */}
         <div>
-          <h4 className="text-muted-foreground mb-2 text-sm font-light">Inputs</h4>
+          <h4 className="text-muted-foreground mb-0.5 text-sm font-light">Inputs</h4>
           <div className="space-y-0.5 px-0">
             {inputItems.map((item) => {
               const actionData: SelectedAction = {
@@ -2147,7 +2164,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
         {/* Outputs Column */}
         <div>
-          <h4 className="text-muted-foreground mb-2 text-sm font-light">Outputs</h4>
+          <h4 className="text-muted-foreground mb-0.5 text-sm font-light">Outputs</h4>
           <div className="space-y-0.5 px-0">
             {outputItems.map((item) => {
               const actionData: SelectedAction = {
@@ -2201,11 +2218,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
         {/* Triggers Section */}
         {details.triggers.length > 0 && (
           <div className="relative">
-            <div className="sticky top-0 z-20 bg-background py-1 mb-1">
+            <div className="sticky top-0 z-20 bg-background py-1 mb-0.5">
               <div className="text-sm font-light text-muted-foreground flex items-center gap-2">
                 <Zap className="w-4 h-4" />
-                <span>Triggers</span>
-              </div>
+              <span>Triggers</span>
+            </div>
             </div>
             {/* Vertical line from header down - aligned with icon center (pl-4=16px + icon center=8px = 24px) */}
             <div className="absolute left-6 top-8 bottom-0 w-[1px] bg-gray-200" />
@@ -2234,7 +2251,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
         {/* Actions Section */}
         {details.actionGroups.length > 0 && (
           <div className="mt-4 relative">
-            <div className="sticky top-0 z-20 bg-background py-1 mb-1">
+            <div className="sticky top-0 z-20 bg-background py-1 mb-0.5">
               <div className="text-sm font-light text-muted-foreground flex items-center gap-2">
                 <Play className="w-4 h-4" />
                 <span>Actions</span>
@@ -2248,7 +2265,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
               <div key={group.name} className="relative">
                 {/* Subheader aligned with parent header (Actions) - pl-4(16px) + icon(16px) + gap-2(8px) = 40px */}
                 {/* Sticky below Actions header: top-[32px] accounts for Actions header height (py-1 + text-sm + mb-1) */}
-                <div className="sticky top-[32px] z-[15] bg-background pl-10 py-1 mb-1">
+                <div className="sticky top-[32px] z-[15] bg-background pl-10 py-1 mb-0.5">
                   <div className="text-sm font-light text-muted-foreground">
                     {group.name}
             </div>
@@ -2658,12 +2675,12 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   return (
     <TooltipProvider delayDuration={0} skipDelayDuration={0}>
       <div className={`bg-white rounded-xl border border-gray-200 shadow-xl flex overflow-hidden group ${
-        source === "sidebar" ? "w-[320px] h-[584px]" : "w-[420px] h-[312px]"
+        source === "sidebar" ? "w-[380px] h-[300px]" : "w-[370px] h-[420px]"
       }`}>
         {/* Sidebar with category tabs */}
-        <div className="w-12 border-border/30 flex flex-col items-center py-2 flex-shrink-0 leading-3 h-auto border-r gap-0.5 relative">
+        <div className="w-30 border-border/30 flex flex-col items-start py-2 flex-shrink-0 leading-3 h-auto border-r gap-0.5 relative px-2">
           <div
-            className="absolute left-1.5 w-9 h-9 bg-accent rounded-lg transition-transform duration-300 ease-out"
+            className="absolute left-2 w-[calc(100%-1rem)] h-9 bg-accent rounded-lg transition-transform duration-300 ease-out"
             style={{
               transform: `translateY(${getTabIndex() * 38}px)`,
             }}
@@ -2693,7 +2710,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                         setTabKey((prev) => prev + 1)
                       }
                     }}
-                    className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200 cursor-pointer relative z-10 ${
+                    className={`w-full h-9 rounded-lg flex items-center gap-2 px-2 transition-colors duration-200 cursor-pointer relative z-10 ${
                       isActive
                         ? "text-accent-foreground"
                         : hasSearchMatch
@@ -2701,7 +2718,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-xs font-medium truncate">{tab.name}</span>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
@@ -2724,7 +2742,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
         <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
           {/* Header with search */}
           <div className="sticky top-0 z-10 bg-background border-b border-border/30 flex-shrink-0">
-            <div className="flex items-center gap-2 px-3 py-2.5">
+            <div className="flex items-center gap-2 px-0 py-2">
               {/* Back button - only show when in sublevel */}
               {selectedApp && (
                 <button
@@ -2734,8 +2752,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   <ChevronDown className="w-4 h-4 rotate-90 text-muted-foreground" />
                 </button>
               )}
-              <div className={`relative ${source === "sidebar" ? "flex-1" : "flex-1"}`}>
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Search nodes..."
@@ -2749,24 +2767,15 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     }
                   }}
                   autoFocus
-                  className={`w-full ${searchQuery ? "pl-9 pr-8" : source === "sidebar" ? "pl-9 pr-8" : "pl-9 pr-12"} py-1.5 text-sm bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300`}
+                  className={`w-full ${searchQuery ? "pl-10 pr-9" : "pl-10 pr-3"} text-sm bg-transparent focus:outline-none`}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted transition-colors group"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted transition-colors group"
                   >
-                    <X className="w-3.5 h-3.5 group-hover:text-foreground transition-colors animate-in spin-in-180 duration-200 text-ring" />
+                    <X className="w-4 h-4 group-hover:text-foreground transition-colors text-muted-foreground" />
                   </button>
-                )}
-                {/* Command icon K - only show when not in sidebar */}
-                {source !== "sidebar" && !searchQuery && (
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <Kbd className="h-5 px-1.5 text-xs flex items-center gap-0.5">
-                      <span>⌘</span>
-                      <span>K</span>
-                    </Kbd>
-                  </div>
                 )}
               </div>
               {/* Pin button - only show for sidebar source */}
@@ -2831,8 +2840,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 <div className="py-0 px-3">
                   {/* Core Actions Section */}
                   {searchResults.coreActions.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Core Actions</span>
                         </div>
@@ -2887,8 +2896,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
                   {/* Nodes Section (Logic, Utils, Inputs, Outputs) - Show before Apps for better relevance */}
                   {searchResults.otherItems.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Nodes</span>
                         </div>
@@ -2951,8 +2960,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
                   {/* Apps Section */}
                   {searchResults.apps.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Apps</span>
                         </div>
@@ -3011,8 +3020,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
                   {/* Knowledge Base Actions Section - Show before regular app actions */}
                   {searchResults.knowledgeBaseActions && searchResults.knowledgeBaseActions.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Knowledge Base</span>
                         </div>
@@ -3072,8 +3081,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
                   {/* Triggers Section */}
                   {searchResults.triggers.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Triggers</span>
                         </div>
@@ -3089,7 +3098,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                       ).map(([appName, triggers]) => {
                         const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
                         return (
-                          <div key={`triggers-${appName}`} className="mb-3">
+                          <div key={`triggers-${appName}`} className="mb-2">
                             <div className="py-1 mb-1 flex items-center gap-2 text-sm font-light text-muted-foreground">
                               <ItemIcon type={appItem?.icon || "box"} appName={appName} />
                               <span className="lowercase">{appName}</span>
@@ -3147,8 +3156,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
                   {/* Actions by App Section */}
                   {searchResults.actions.length > 0 && (
-                    <div className="mb-4">
-                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="mb-1">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-0.5">
                         <div className="text-sm font-light text-muted-foreground">
                           <span>Actions</span>
                         </div>
@@ -3164,7 +3173,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                       ).map(([appName, actions]) => {
                         const appItem = [...popularApps, ...otherApps].find((app) => app.name === appName)
                         return (
-                          <div key={`actions-${appName}`} className="mb-3">
+                          <div key={`actions-${appName}`} className="mb-2">
                             <div className="py-1 mb-1 flex items-center gap-2 text-sm font-light text-muted-foreground">
                               <ItemIcon type={appItem?.icon || "box"} appName={appName} />
                               <span className="lowercase">{appName}</span>
