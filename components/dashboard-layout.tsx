@@ -212,7 +212,7 @@ export function DashboardLayout({ children, onActionSelect, onOpenNodeSelector }
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
         <TooltipProvider delayDuration={100}>
-          <div className="flex w-12 flex-col items-center border-r border-border bg-background py-5">
+          <div className="hidden flex w-12 flex-col items-center border-r border-border bg-background py-5">
             <div className="flex flex-col items-center gap-1.5">
               {/* Plus Button */}
               <Tooltip>

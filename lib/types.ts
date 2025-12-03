@@ -33,7 +33,7 @@ export type SelectedAction = {
   appName: string
   actionName: string
   description: string
-  type: "trigger" | "action"
+  type: "trigger" | "action" | "input" | "output"
 }
 
 export type WorkflowNodeData = {

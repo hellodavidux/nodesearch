@@ -57,6 +57,26 @@ const WorkflowIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
+// Arrow right to line icon component for Outputs tab
+const ArrowRightToLineIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M17 12H3" />
+    <path d="m11 18 6-6-6-6" />
+    <path d="M21 5v14" />
+  </svg>
+)
+
 // Play icon component for Actions & Outputs tab
 const PlayIcon = ({ className }: { className?: string }) => (
   <svg
@@ -150,11 +170,11 @@ const appDetails: Record<string, AppDetail> = {
     ],
     actionGroups: [
       {
-        name: "Code Tools",
+        name: "Code",
         items: [{ name: "Analysis Tool", description: "A tool to analyze data, create charts and visualizations" }],
       },
       {
-        name: "Document Tools",
+        name: "Document",
         items: [
           { name: "Split Files", description: "Split text content from files into smaller chunks" },
           { name: "Create Spreadsheet File", description: "Create a CSV or Excel file from JSON structured data" },
@@ -170,15 +190,15 @@ const appDetails: Record<string, AppDetail> = {
         ],
       },
       {
-        name: "Email Tools",
+        name: "Email",
         items: [{ name: "Send Email", description: "Send an email using StackAI's email service" }],
       },
       {
-        name: "Web Search Tools",
+        name: "Web Search",
         items: [{ name: "Web Search", description: "Search the web for information with optional filters" }],
       },
       {
-        name: "Computer Tools",
+        name: "Computer",
         items: [
           { name: "Browser Navigation", description: "Execute browser navigation commands" },
           { name: "Code Execution", description: "Execute code in Python, JavaScript, R, and more" },
@@ -446,11 +466,6 @@ const nodeDescriptions: Record<string, string> = {
 
 const categories: Category[] = [
   {
-    name: "Inputs & Outputs",
-    icon: ArrowDownUp,
-    items: [], // Items handled separately in two-column layout
-  },
-  {
     name: "Triggers",
     icon: Zap,
     items: [], // Items handled separately in two-column layout
@@ -461,6 +476,11 @@ const categories: Category[] = [
     items: [
       { name: "StackAI", icon: "stackai" }, // Changed from "box" to "bot"
     ],
+  },
+  {
+    name: "Utils",
+    icon: Wrench,
+    items: [], // Items handled separately with subcategories
   },
   {
     name: "Apps",
@@ -479,19 +499,19 @@ const categories: Category[] = [
     ],
     utilsCategories: {
       "Miscellaneous": [
-        { name: "StackAI Project", icon: "stackai" },
-        { name: "StackAI Project (Beta)", icon: "stackai" },
-        { name: "Sticky Note", icon: "sticky" },
-        { name: "Default Message", icon: "message" },
-        { name: "Delay", icon: "clock" },
-        { name: "Shared Memory", icon: "share" },
+      { name: "StackAI Project", icon: "stackai" },
+      { name: "StackAI Project (Beta)", icon: "stackai" },
+      { name: "Sticky Note", icon: "sticky" },
+      { name: "Default Message", icon: "message" },
+      { name: "Delay", icon: "clock" },
+      { name: "Shared Memory", icon: "share" },
       ],
       "Databases": [
-        { name: "Dynamic Vector Store", icon: "database" },
-        { name: "Text-to-SQL", icon: "code" },
-        { name: "Search Tables", icon: "table" },
-        { name: "Search Data", icon: "code" },
-      ],
+      { name: "Dynamic Vector Store", icon: "database" },
+      { name: "Text-to-SQL", icon: "code" },
+      { name: "Search Tables", icon: "table" },
+      { name: "Search Data", icon: "code" },
+    ],
     },
   },
 ]
@@ -512,8 +532,12 @@ const outputItems = [
 const builtInTriggers = [
   { name: "Scheduled Execution", icon: "clock" },
   { name: "Webhook", icon: "webhook" },
-  { name: "On Task Completion", icon: "check" },
-  { name: "On Error", icon: "alert" },
+]
+
+const stackAIInterfaceItems = [
+  { name: "Text", icon: "pencil" },
+  { name: "Files", icon: "file" },
+  { name: "Audio", icon: "mic" },
 ]
 
 const appTriggers = [
@@ -531,11 +555,11 @@ const appTriggers = [
 
 // Sidebar tab configuration with descriptions for tooltips
 const categoryTabs = [
-  { name: "Inputs and Outputs", key: "Inputs and Outputs", icon: ArrowDownUp },
   { name: "Triggers", key: "Triggers", icon: Zap },
-  { name: "StackAI Tools", key: "Core Nodes", icon: StackAIIcon },
+  { name: "Actions", key: "Core Nodes", icon: Play },
+  { name: "Outputs", key: "Outputs", icon: ArrowRightToLineIcon },
+  { name: "Utils", key: "Utils", icon: Wrench },
   { name: "Apps", key: "Apps", icon: Blocks },
-  { name: "Tools & Logic", key: "Utils", icon: Wrench },
 ]
 
 const popularApps = [
@@ -672,7 +696,7 @@ const otherApps = allApps
 
 const popularTools = [
   { name: "AI Agent", icon: "bot", category: "Core Nodes" },
-  { name: "Knowledge Base", icon: "book", category: "Core Nodes" },
+  { name: "Search Knowledge Base", icon: "book", category: "Core Nodes" },
   { name: "Python", icon: "python", category: "Logic" },
   { name: "If/Else", icon: "branch", category: "Logic" },
   { name: "Delay", icon: "clock", category: "Utils" },
@@ -692,11 +716,11 @@ const categoryDescriptions: Record<string, string> = {
 }
 
 const tabTooltips: Record<string, string> = {
-  Popular: "Quick access to popular apps and tools",
   Triggers: "Start your workflow",
   Utils: "Logic and utility functions",
   Apps: "Third-party integrations",
   "Core Nodes": "Essential building blocks",
+  Outputs: "Output nodes and templates",
 }
 
 // =============================================================================
@@ -800,7 +824,7 @@ type AddElementsPanelProps = {
 }
 
 export function AddElementsPanel({ onSelectAction, source = "handle", isPinned = false, onPinToggle, initialTab }: AddElementsPanelProps) {
-  const [activeTab, setActiveTab] = useState(initialTab || "Popular")
+  const [activeTab, setActiveTab] = useState(initialTab || "Triggers")
   
   // Update activeTab when initialTab prop changes
   useEffect(() => {
@@ -816,6 +840,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   const [actionsExpanded, setActionsExpanded] = useState(true)
   const [tabKey, setTabKey] = useState(0)
   const [selectedApp, setSelectedApp] = useState<string | null>(null)
+  const [showAllStackAIActions, setShowAllStackAIActions] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   // Reset scroll position when tab changes or search query changes
@@ -823,12 +848,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = 0
     }
-  }, [activeTab, selectedApp, searchQuery])
+  }, [activeTab, selectedApp, searchQuery, showAllStackAIActions])
 
   const getTabIndex = () => {
-    if (activeTab === "Popular") return 0
     const tabIndex = categoryTabs.findIndex((tab) => tab.key === activeTab)
-    return tabIndex + 1 // +1 because Popular is index 0
+    return tabIndex
   }
 
   const handleItemClick = (categoryName: string, item: any) => {
@@ -838,6 +862,20 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
     }
 
     const uniqueKey = `${categoryName}-${item.name}`
+    
+    // Skip sublevels for "Search Knowledge Base" - go directly to component
+    if (item.name === "Search Knowledge Base" || item.name === "Knowledge Base") {
+      const description = nodeDescriptions["Search Knowledge Base"] || nodeDescriptions["Knowledge Base"] || "Search Knowledge Base node"
+      setSelectedAction("Search Knowledge Base")
+      onSelectAction?.({
+        appName: "Search Knowledge Base",
+        actionName: "Search Knowledge Base",
+        description,
+        type: "action",
+      })
+      return
+    }
+    
     const details = appDetails[item.name]
 
     if (details) {
@@ -895,6 +933,19 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
   }
 
   const handlePopularToolClick = (tool: { name: string; icon: string; category: string }) => {
+    // Skip sublevels for "Search Knowledge Base" - go directly to component
+    if (tool.name === "Search Knowledge Base") {
+      const description = nodeDescriptions["Search Knowledge Base"] || nodeDescriptions["Knowledge Base"] || "Search Knowledge Base node"
+      setSelectedAction("Search Knowledge Base")
+      onSelectAction?.({
+        appName: "Search Knowledge Base",
+        actionName: "Search Knowledge Base",
+        description,
+        type: "action",
+      })
+      return
+    }
+    
     // Check if this tool has app details (like Knowledge Base with sublevels)
     const details = appDetails[tool.name]
     
@@ -953,7 +1004,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 )
               }
               
-              const toolDetails = appDetails[tool.name]
+              // Don't show chevron for "Search Knowledge Base" since it has no sublevels
+              const toolDetails = tool.name === "Search Knowledge Base" ? null : appDetails[tool.name]
               return (
               <div
                 key={tool.name}
@@ -961,12 +1013,12 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 onMouseEnter={(e) => e.stopPropagation()}
               >
                 <div
-                  onClick={() => handlePopularToolClick(tool)}
+                onClick={() => handlePopularToolClick(tool)}
                   className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
-                >
+              >
                   <div className="flex items-center gap-2.5">
-                    <ItemIcon type={tool.icon} muted />
-                    <span className="text-foreground truncate font-medium">{tool.name}</span>
+                <ItemIcon type={tool.icon} muted />
+                <span className="text-foreground truncate font-medium">{tool.name}</span>
                   </div>
                   {toolDetails && (
                     <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
@@ -1040,59 +1092,59 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
   const renderCoreView = () => {
     const coreTools = [
-      // Code Tools
-      { name: "Analysis Tool", icon: "code", category: "Code Tools" },
-      // Document Tools
-      { name: "Split Files", icon: "file", category: "Document Tools" },
-      { name: "Create Spreadsheet File", icon: "file", category: "Document Tools" },
-      { name: "Create Slides", icon: "file", category: "Document Tools" },
-      { name: "Document Q&A", icon: "book", category: "Document Tools" },
-      { name: "Extract JSON Data with JMESPath", icon: "code", category: "Document Tools" },
-      { name: "Convert Markdown to File", icon: "file", category: "Document Tools" },
-      { name: "Page Split", icon: "file", category: "Document Tools" },
-      { name: "Parse Files", icon: "file", category: "Document Tools" },
-      { name: "PDF to Image", icon: "file", category: "Document Tools" },
-      { name: "Summarize Documents", icon: "book", category: "Document Tools" },
-      { name: "Transcribe Documents", icon: "file", category: "Document Tools" },
-      { name: "Translate Documents", icon: "file", category: "Document Tools" },
-      // Time Tools
-      { name: "Current Time", icon: "clock", category: "Time Tools" },
-      { name: "Weekday Calculator", icon: "clock", category: "Time Tools" },
-      // Web Tools
-      { name: "Deep Research", icon: "link", category: "Web Tools" },
-      { name: "Get Website as Markdown", icon: "link", category: "Web Tools" },
-      { name: "Job Search", icon: "link", category: "Web Tools" },
-      { name: "News Search", icon: "link", category: "Web Tools" },
-      { name: "Send HTTP Request", icon: "link", category: "Web Tools" },
-      // Knowledge Base Tools
-      { name: "List Knowledge Base Contents", icon: "database", category: "Knowledge Base Tools" },
-      { name: "List Knowledge Bases", icon: "database", category: "Knowledge Base Tools" },
-      { name: "Read Knowledge Base File", icon: "database", category: "Knowledge Base Tools" },
-      { name: "Search Knowledge Base", icon: "database", category: "Knowledge Base Tools" },
-      // Documents Tools
-      { name: "Fill PDF Form", icon: "file", category: "Documents Tools" },
-      // Workflow Tools
-      { name: "Generate StackAI Workflow", icon: "stackai", category: "Workflow Tools" },
-      { name: "Get StackAI Action", icon: "stackai", category: "Workflow Tools" },
-      { name: "List StackAI Actions", icon: "stackai", category: "Workflow Tools" },
-      { name: "List StackAI Triggers", icon: "stackai", category: "Workflow Tools" },
-      { name: "Execute StackAI Project", icon: "stackai", category: "Workflow Tools" },
-      // Files Tools
-      { name: "Download Private File", icon: "file", category: "Files Tools" },
-      // Image Tools
-      { name: "Convert HTML to Image", icon: "file", category: "Image Tools" },
-      { name: "Image-to-Image Transform", icon: "file", category: "Image Tools" },
-      { name: "Image to Text", icon: "file", category: "Image Tools" },
-      { name: "Text to Image", icon: "file", category: "Image Tools" },
-      // Email Tools
-      { name: "Send Email", icon: "message", category: "Email Tools" },
-      // Web Search Tools
-      { name: "Web Search", icon: "link", category: "Web Search Tools" },
-      // Computer Tools
-      { name: "Browser Navigation", icon: "code", category: "Computer Tools" },
-      { name: "Code Execution", icon: "code", category: "Computer Tools" },
-      { name: "File Navigation", icon: "file", category: "Computer Tools" },
-      { name: "Terminal", icon: "code", category: "Computer Tools" },
+      // Code
+      { name: "Analysis Tool", icon: "code", category: "Code" },
+      // Document
+      { name: "Split Files", icon: "file", category: "Document" },
+      { name: "Create Spreadsheet File", icon: "file", category: "Document" },
+      { name: "Create Slides", icon: "file", category: "Document" },
+      { name: "Document Q&A", icon: "book", category: "Document" },
+      { name: "Extract JSON Data with JMESPath", icon: "code", category: "Document" },
+      { name: "Convert Markdown to File", icon: "file", category: "Document" },
+      { name: "Page Split", icon: "file", category: "Document" },
+      { name: "Parse Files", icon: "file", category: "Document" },
+      { name: "PDF to Image", icon: "file", category: "Document" },
+      { name: "Summarize Documents", icon: "book", category: "Document" },
+      { name: "Transcribe Documents", icon: "file", category: "Document" },
+      { name: "Translate Documents", icon: "file", category: "Document" },
+      // Time
+      { name: "Current Time", icon: "clock", category: "Time" },
+      { name: "Weekday Calculator", icon: "clock", category: "Time" },
+      // Web
+      { name: "Deep Research", icon: "link", category: "Web" },
+      { name: "Get Website as Markdown", icon: "link", category: "Web" },
+      { name: "Job Search", icon: "link", category: "Web" },
+      { name: "News Search", icon: "link", category: "Web" },
+      { name: "Send HTTP Request", icon: "link", category: "Web" },
+      // Knowledge Base
+      { name: "List Knowledge Base Contents", icon: "database", category: "Knowledge Base" },
+      { name: "List Knowledge Bases", icon: "database", category: "Knowledge Base" },
+      { name: "Read Knowledge Base File", icon: "database", category: "Knowledge Base" },
+      { name: "Search Knowledge Base", icon: "database", category: "Knowledge Base" },
+      // Documents
+      { name: "Fill PDF Form", icon: "file", category: "Documents" },
+      // Workflow
+      { name: "Generate StackAI Workflow", icon: "stackai", category: "Workflow" },
+      { name: "Get StackAI Action", icon: "stackai", category: "Workflow" },
+      { name: "List StackAI Actions", icon: "stackai", category: "Workflow" },
+      { name: "List StackAI Triggers", icon: "stackai", category: "Workflow" },
+      { name: "Execute StackAI Project", icon: "stackai", category: "Workflow" },
+      // Files
+      { name: "Download Private File", icon: "file", category: "Files" },
+      // Image
+      { name: "Convert HTML to Image", icon: "file", category: "Image" },
+      { name: "Image-to-Image Transform", icon: "file", category: "Image" },
+      { name: "Image to Text", icon: "file", category: "Image" },
+      { name: "Text to Image", icon: "file", category: "Image" },
+      // Email
+      { name: "Send Email", icon: "message", category: "Email" },
+      // Web Search
+      { name: "Web Search", icon: "link", category: "Web Search" },
+      // Computer
+      { name: "Browser Navigation", icon: "code", category: "Computer" },
+      { name: "Code Execution", icon: "code", category: "Computer" },
+      { name: "File Navigation", icon: "file", category: "Computer" },
+      { name: "Terminal", icon: "code", category: "Computer" },
     ]
 
     const groupedTools = coreTools.reduce((acc, tool) => {
@@ -1105,92 +1157,221 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
     const topItems = [
       { name: "AI Agent", icon: "bot" },
-      { name: "Knowledge Base", icon: "book" },
+      { name: "Search Knowledge Base", icon: "book" },
     ]
 
     return (
-    <div className="p-3 py-0 min-w-0 overflow-hidden">
-        <div className="space-y-3 min-w-0">
-          {/* Core Nodes section */}
+      <div className="p-3 py-0 min-w-0 overflow-hidden">
+        <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
+          {/* Left Column */}
           <div>
-            <div className="sticky top-0 z-10 bg-background py-1 mb-1">
-              <div className="px-3 text-sm font-light text-muted-foreground">
-                <span>Core Nodes</span>
-              </div>
-            </div>
-            <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
-              {topItems.map((item) => {
-                const actionData: SelectedAction = {
-                  appName: item.name,
-                  actionName: item.name,
-                  description: nodeDescriptions[item.name] || `${item.name} node`,
-                  type: "action",
-                }
-                
-                if (source === "sidebar") {
-                  return (
-                    <DraggableItem
-                      key={item.name}
-                      data={actionData}
-                      className="group/item"
-                    >
-                      <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                        <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
-                          <div className="flex-shrink-0">
-                            <ItemIcon type={item.icon} appName={item.name} />
-                          </div>
-                          <span className="text-foreground truncate font-medium min-w-0">{item.name}</span>
-                        </div>
-                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                      </div>
-                    </DraggableItem>
-                  )
-                }
-                
-                return (
-                  <div
-                    key={item.name}
-                    onClick={() => handleItemClick("Core Nodes", item)}
-                    className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
-                  >
-                    <div className="flex-shrink-0">
-                      <ItemIcon type={item.icon} appName={item.name} />
-                    </div>
-                    <span className="text-foreground truncate font-medium min-w-0 flex-1">{item.name}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          {Object.entries(groupedTools).map(([category, tools]) => (
-            <div key={category}>
+            {/* Core Nodes section */}
+            <div className="mb-4">
               <div className="sticky top-0 z-10 bg-background py-1 mb-1">
                 <div className="px-3 text-sm font-light text-muted-foreground">
-                  <span>{category}</span>
-                </div>
+                  <span>Core Nodes</span>
+            </div>
               </div>
               <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+                {topItems.map((item) => {
+                  // Map "Search Knowledge Base" back to "Knowledge Base" for lookup
+                  const lookupName = item.name === "Search Knowledge Base" ? "Knowledge Base" : item.name
+                  const itemDetails = appDetails[lookupName]
+                  const actionData: SelectedAction = {
+                    appName: item.name,
+                    actionName: item.name,
+                    description: nodeDescriptions[item.name] || `${item.name} node`,
+                      type: "action",
+                  }
+                  
+                  if (source === "sidebar") {
+                    return (
+                      <DraggableItem
+                        key={item.name}
+                        data={actionData}
+                    className="group/item"
+                  >
+                    <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                      <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+                        <div className="flex-shrink-0">
+                              <ItemIcon type={item.icon} appName={item.name} />
+                        </div>
+                            <span className="text-foreground truncate font-medium min-w-0">{item.name}</span>
+                      </div>
+                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                    </div>
+                  </DraggableItem>
+                    )
+                  }
+                  
+                  // Create a modified item for click handler that uses the lookup name
+                  const itemForClick = { ...item, name: lookupName }
+                  return (
+                    <div
+                      key={item.name}
+                      onClick={() => handleItemClick("Core Nodes", itemForClick)}
+                      className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
+                    >
+                        <div className="flex-shrink-0">
+                        <ItemIcon type={item.icon} appName={item.name} />
+                        </div>
+                      <span className="text-foreground truncate font-medium min-w-0 flex-1">{item.name}</span>
+                      </div>
+                  )
+                })}
+                    </div>
+            </div>
+
+          </div>
+
+          {/* Right Column - StackAI Actions */}
+          {source !== "sidebar" && (
+            <div>
+              {!showAllStackAIActions ? (
+                <>
+                  <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                    <div className="px-3 text-sm font-light text-muted-foreground">
+                      <span>Built in Actions</span>
+                    </div>
+                  </div>
+                  <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+                    {/* Popular actions */}
+                    {[
+                      { name: "Text-to-SQL", icon: "code" },
+                      { name: "Send Email", icon: "message" },
+                      { name: "Web Search", icon: "link" },
+                      { name: "Document Q&A", icon: "book" },
+                      { name: "Summarize Documents", icon: "book" },
+                      { name: "StackAI Actions", icon: "stackai", isExpandable: true },
+                    ].map((item) => {
+                      const actionData: SelectedAction = {
+                        appName: item.name,
+                        actionName: item.name,
+                        description: nodeDescriptions[item.name] || `${item.name} node`,
+                        type: "action",
+                      }
+                      
+                      if (item.isExpandable) {
+                        return (
+                          <div
+                            key={item.name}
+                            className="group/item"
+                          >
+                            <div
+                              onClick={() => setShowAllStackAIActions(true)}
+                              className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
+                            >
+                              <div className="flex-shrink-0">
+                                <ItemIcon type={item.icon} />
+        </div>
+                              <span className="text-foreground truncate font-medium min-w-0 flex-1">{item.name}</span>
+                              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                            </div>
+                          </div>
+                        )
+                      }
+                      
+                      return (
+                        <div
+                          key={item.name}
+                          onClick={() => handleItemClick("Core Nodes", item)}
+                          className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
+                        >
+                          <div className="flex-shrink-0">
+                            <ItemIcon type={item.icon} />
+        </div>
+                          <span className="text-foreground truncate font-medium min-w-0 flex-1">{item.name}</span>
+      </div>
+                      )
+                    })}
+    </div>
+                </>
+              ) : (
+                <>
+                  {/* Back button */}
+                  <div className="mb-2">
+                    <button
+                      onClick={() => setShowAllStackAIActions(false)}
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+                    >
+                      <ChevronDown className="w-4 h-4 rotate-90" />
+                      <span>Back</span>
+                    </button>
+                  </div>
+                  
+                  {/* All StackAI Actions by category */}
+          {Object.entries(groupedTools).map(([category, tools]) => (
+                    <div key={category} className="mb-3">
+                      <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                        <div className="px-3 text-sm font-light text-muted-foreground">
+                <span>{category}</span>
+              </div>
+                      </div>
+                      <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
                 {tools.map((tool) => {
                   const actionData: SelectedAction = {
                     appName: tool.name,
                     actionName: tool.name,
                     description: nodeDescriptions[tool.name] || `${tool.name} node`,
                     type: "action",
+                          }
+                          
+                          return (
+                            <div
+                              key={tool.name}
+                              onClick={() => handleItemClick("Core Nodes", tool)}
+                              className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
+                            >
+                              <div className="flex-shrink-0">
+                                <ItemIcon type={tool.icon} />
+                              </div>
+                              <span className="text-foreground truncate font-medium min-w-0 flex-1">{tool.name}</span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  const renderOutputsView = () => {
+    const outputItemsList = [
+      { name: "Output node", icon: "pencil" },
+      { name: "Template node", icon: "template" },
+      { name: "Audio node", icon: "mic" },
+    ]
+
+    return (
+      <div className="p-3 py-0 min-w-0 overflow-hidden">
+        <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+          {outputItemsList.map((item) => {
+            const actionData: SelectedAction = {
+              appName: item.name,
+              actionName: item.name,
+              description: nodeDescriptions[item.name] || `${item.name} output`,
+              type: "output",
                   }
                   
                   if (source === "sidebar") {
                     return (
                       <DraggableItem
-                        key={tool.name}
+                  key={item.name}
                         data={actionData}
                         className="group/item"
                       >
                         <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
                           <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
                             <div className="flex-shrink-0">
-                              <ItemIcon type={tool.icon} />
+                        <ItemIcon type={item.icon} appName={item.name} />
                             </div>
-                            <span className="text-foreground truncate font-medium min-w-0">{tool.name}</span>
+                      <span className="text-foreground truncate font-medium min-w-0">{item.name}</span>
                           </div>
                           <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
                         </div>
@@ -1200,40 +1381,340 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   
                   return (
                     <div
-                      key={tool.name}
-                      onClick={() => handleItemClick("Core Nodes", tool)}
+                key={item.name}
+                onClick={() => handleItemClick("Outputs", item)}
                 className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
               >
-                      <div className="flex-shrink-0">
-                        <ItemIcon type={tool.icon} />
-                      </div>
-                      <span className="text-foreground truncate font-medium min-w-0 flex-1">{tool.name}</span>
+                <div className="flex-shrink-0">
+                  <ItemIcon type={item.icon} appName={item.name} />
+                </div>
+                <span className="text-foreground truncate font-medium min-w-0 flex-1">{item.name}</span>
                     </div>
                   )
                 })}
-              </div>
-              </div>
-            ))}
           </div>
         </div>
     )
   }
 
-  const renderTriggersView = () => (
-    <div className="p-3 py-0">
-      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
-        {/* Built-in Triggers Column */}
-        <div>
-          <div className="sticky top-0 z-10 bg-background py-1 mb-2">
-            <h4 className="text-muted-foreground text-sm font-light">Built-in Triggers</h4>
+  const renderAppsView = () => {
+    return (
+      <div className="p-3 py-0">
+        <div className="space-y-0.5 min-w-0 overflow-hidden">
+          {/* Popular apps section */}
+          <div className="sticky top-0 z-10 bg-background py-1.5 my-0">
+            <div className="px-3 font-light text-muted-foreground text-sm lowercase">
+              Most used apps
+            </div>
           </div>
-          <div className="space-y-0.5 px-0">
-            {builtInTriggers.map((item) => {
+          <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+            {popularApps.map((item) => {
+              const uniqueKey = `popular-${item.name}`
+              const details = appDetails[item.name]
               const actionData: SelectedAction = {
                 appName: item.name,
                 actionName: item.name,
-                description: nodeDescriptions[item.name] || `${item.name} trigger`,
-                type: "trigger",
+                description: nodeDescriptions[item.name] || `${item.name} app`,
+                type: "action",
+              }
+
+              if (source === "sidebar") {
+                return (
+                  <DraggableItem
+                    key={uniqueKey}
+                    data={actionData}
+                    className="group/item"
+                  >
+                    <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                      <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                        <div className="flex-shrink-0">
+                          <ItemIcon type={item.icon} appName={item.name} />
+                        </div>
+                        <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                      </div>
+                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                    </div>
+                  </DraggableItem>
+                )
+              }
+
+              return (
+                <div key={uniqueKey} className="group/item">
+                  <div
+                    onClick={() => handleItemClick("Apps", item)}
+                    className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                      selectedAction === item.name && !details ? "bg-accent/40" : ""
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                      <ItemIcon type={item.icon} appName={item.name} />
+                      <span className="text-sm font-medium">{item.name}</span>
+                    </div>
+                    {details && (
+                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          
+          {/* Other apps section */}
+          <div className="sticky top-0 z-10 bg-background py-1.5 my-0 mt-2">
+            <div className="px-3 font-light text-muted-foreground text-sm lowercase">
+              Other apps
+            </div>
+          </div>
+          <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+            {otherApps.map((item) => {
+              const uniqueKey = `other-${item.name}`
+              const details = appDetails[item.name]
+              const actionData: SelectedAction = {
+                appName: item.name,
+                actionName: item.name,
+                description: nodeDescriptions[item.name] || `${item.name} app`,
+                type: "action",
+              }
+
+              if (source === "sidebar") {
+                return (
+                  <DraggableItem
+                    key={uniqueKey}
+                    data={actionData}
+                    className="group/item"
+                  >
+                    <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                      <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                        <div className="flex-shrink-0">
+                          <ItemIcon type={item.icon} appName={item.name} />
+                        </div>
+                        <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                      </div>
+                      <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                    </div>
+                  </DraggableItem>
+                )
+              }
+
+              return (
+                <div key={uniqueKey} className="group/item">
+                  <div
+                    onClick={() => handleItemClick("Apps", item)}
+                    className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                      selectedAction === item.name && !details ? "bg-accent/40" : ""
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                      <ItemIcon type={item.icon} appName={item.name} />
+                      <span className="text-sm font-medium">{item.name}</span>
+                    </div>
+                    {details && (
+                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderUtilsView = () => {
+    const utilsCategory = categories.find((cat) => cat.name === "Utils")
+    if (!utilsCategory) return null
+
+    return (
+      <div className="p-3 py-0">
+        <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
+          {/* Left Column */}
+          <div>
+            {/* Logic section */}
+            <div className="sticky top-0 z-10 bg-background py-1 my-0">
+              <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                Logic
+              </div>
+            </div>
+            <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+              {utilsCategory.items.slice(0, 4).map((item) => {
+                const uniqueKey = `Utils-${item.name}`
+                const details = appDetails[item.name]
+                const actionData: SelectedAction = {
+                  appName: item.name,
+                  actionName: item.name,
+                  description: nodeDescriptions[item.name] || `${item.name} node`,
+                  type: "action",
+                }
+
+                if (source === "sidebar") {
+                  return (
+                    <DraggableItem
+                      key={uniqueKey}
+                      data={actionData}
+                      className="group/item"
+                    >
+                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                          <div className="flex-shrink-0">
+                            <ItemIcon type={item.icon} />
+                          </div>
+                          <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                        </div>
+                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                      </div>
+                    </DraggableItem>
+                  )
+                }
+
+                return (
+                  <div key={uniqueKey} className="group/item">
+                    <div
+                      onClick={() => handleItemClick("Utils", item)}
+                      className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                        selectedAction === item.name && !details ? "bg-accent/40" : ""
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                        <ItemIcon type={item.icon} appName={item.name} />
+                        <span className="text-sm font-medium">{item.name}</span>
+                      </div>
+                      {details && (
+                        <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            
+            {/* Databases section */}
+            {utilsCategory.utilsCategories && utilsCategory.utilsCategories["Databases"] && (
+              <>
+                <div className="sticky top-0 z-10 bg-background py-1 my-0 mt-2">
+                  <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                    Databases
+                  </div>
+                </div>
+                <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+                  {utilsCategory.utilsCategories["Databases"].map((item) => {
+                    const uniqueKey = `Utils-Databases-${item.name}`
+                    const details = appDetails[item.name]
+                    const actionData: SelectedAction = {
+                      appName: item.name,
+                      actionName: item.name,
+                      description: nodeDescriptions[item.name] || `${item.name} node`,
+                      type: "action",
+                    }
+
+                    if (source === "sidebar") {
+                      return (
+                        <DraggableItem
+                          key={uniqueKey}
+                          data={actionData}
+                          className="group/item"
+                        >
+                          <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                            <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                              <div className="flex-shrink-0">
+                                <ItemIcon type={item.icon} appName={item.name} />
+                              </div>
+                              <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                            </div>
+                            <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                          </div>
+                        </DraggableItem>
+                      )
+                    }
+
+                    return (
+                      <div key={uniqueKey} className="group/item">
+                        <div
+                          onClick={() => handleItemClick("Utils", item)}
+                          className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                            selectedAction === item.name && !details ? "bg-accent/40" : ""
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                            <ItemIcon type={item.icon} appName={item.name} />
+                            <span className="text-sm font-medium">{item.name}</span>
+                          </div>
+                          {details && (
+                            <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Right Column - Utils (Miscellaneous) */}
+          {source !== "sidebar" && utilsCategory.utilsCategories && utilsCategory.utilsCategories["Miscellaneous"] && (
+            <div>
+              <div className="sticky top-0 z-10 bg-background py-1 my-0">
+                <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                  Utils
+                </div>
+              </div>
+              <div className="space-y-0.5 px-2 min-w-0 overflow-hidden">
+                {utilsCategory.utilsCategories["Miscellaneous"].map((item) => {
+                  const uniqueKey = `Utils-Miscellaneous-${item.name}`
+                  const details = appDetails[item.name]
+                  const actionData: SelectedAction = {
+                    appName: item.name,
+                    actionName: item.name,
+                    description: nodeDescriptions[item.name] || `${item.name} node`,
+                    type: "action",
+                  }
+
+                  return (
+                    <div key={uniqueKey} className="group/item">
+                      <div
+                        onClick={() => handleItemClick("Utils", item)}
+                        className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                          selectedAction === item.name && !details ? "bg-accent/40" : ""
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                          <ItemIcon type={item.icon} appName={item.name} />
+                          <span className="text-sm font-medium">{item.name}</span>
+                        </div>
+                        {details && (
+                          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  const renderTriggersView = () => {
+    return (
+    <div className="p-3 py-0">
+      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
+          {/* Left Column */}
+        <div>
+            {/* Inputs Section */}
+            <div className="mb-4">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+                <h4 className="text-muted-foreground text-sm font-light">Inputs</h4>
+              </div>
+          <div className="space-y-0.5 px-0">
+                {stackAIInterfaceItems.map((item) => {
+              const actionData: SelectedAction = {
+                appName: item.name,
+                actionName: item.name,
+                    description: nodeDescriptions[item.name] || `${item.name} input`,
+                    type: "input",
               }
               
               if (source === "sidebar") {
@@ -1245,7 +1726,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   >
                     <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <ItemIcon type={item.icon} appName={item.name} />
+                            <ItemIcon type={item.icon} appName={item.name} />
                         <span className="text-foreground truncate font-medium">{item.name}</span>
                       </div>
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
@@ -1260,7 +1741,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                 onClick={() => handleItemClick("Triggers", item)}
                 className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
               >
-                <ItemIcon type={item.icon} />
+                      <ItemIcon type={item.icon} appName={item.name} />
                 <span className="text-foreground truncate font-medium">{item.name}</span>
               </div>
               )
@@ -1268,37 +1749,67 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           </div>
         </div>
 
-        {/* App Triggers Column */}
-        <div>
-          <div className="sticky top-0 z-10 bg-background py-1 mb-2">
-            <h4 className="text-muted-foreground text-sm font-light">App Triggers</h4>
-          </div>
+            {/* Built-in Triggers Section */}
+            <div className="mb-4">
+              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+                <h4 className="text-muted-foreground text-sm font-light">Built-in Triggers</h4>
+              </div>
           <div className="space-y-0.5 px-0">
-            {appTriggers.map((app) => {
-              const details = appDetails[app.name]
+                {builtInTriggers.map((item) => {
               const actionData: SelectedAction = {
-                appName: app.name,
-                actionName: app.name,
-                description: `${app.name} app`,
-                type: "action",
+                    appName: item.name,
+                    actionName: item.name,
+                    description: nodeDescriptions[item.name] || `${item.name} trigger`,
+                    type: "trigger",
               }
               
               if (source === "sidebar") {
                 return (
                   <DraggableItem
-                    key={app.name}
+                        key={item.name}
                     data={actionData}
                     className="group/item"
                   >
                     <div className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0">
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <ItemIcon type={app.icon} muted />
-                        <span className="text-foreground truncate font-medium">{app.name}</span>
+                            <ItemIcon type={item.icon} appName={item.name} />
+                            <span className="text-foreground truncate font-medium">{item.name}</span>
       </div>
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
     </div>
                   </DraggableItem>
                 )
+              }
+                  
+                  return (
+                    <div
+                      key={item.name}
+                      onClick={() => handleItemClick("Triggers", item)}
+                      className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
+                    >
+                      <ItemIcon type={item.icon} />
+                      <span className="text-foreground truncate font-medium">{item.name}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - App Triggers */}
+          {source !== "sidebar" && appTriggers.length > 0 && (
+            <div>
+              <div className="sticky top-0 z-10 bg-background py-1 mb-2">
+                <h4 className="text-muted-foreground text-sm font-light">App Triggers</h4>
+              </div>
+              <div className="space-y-0.5 px-0">
+                {appTriggers.map((app) => {
+                  const details = appDetails[app.name]
+                  const actionData: SelectedAction = {
+                    appName: app.name,
+                    actionName: app.name,
+                    description: `${app.name} app`,
+                    type: "action",
               }
               
               return (
@@ -1312,7 +1823,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     className="flex items-center justify-between gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ItemIcon type={app.icon} muted appName={app.name} />
+                          <ItemIcon type={app.icon} muted appName={app.name} />
                       <span className="text-foreground truncate font-medium">{app.name}</span>
                     </div>
                     {details && (
@@ -1324,9 +1835,11 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
             })}
           </div>
         </div>
+          )}
       </div>
     </div>
   )
+  }
 
   const renderInputsAndOutputsView = () => (
     <div className="p-3 py-0">
@@ -1344,7 +1857,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
               }
               
               if (source === "sidebar") {
-                return (
+    return (
                   <DraggableItem
                     key={item.name}
                     data={actionData}
@@ -1354,7 +1867,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                       <div className="flex items-center gap-2.5 min-w-0 flex-1">
                         <ItemIcon type={item.icon} appName={item.name} />
                         <span className="text-foreground truncate font-medium">{item.name}</span>
-                      </div>
+        </div>
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none" />
                     </div>
                   </DraggableItem>
@@ -1427,17 +1940,19 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
     if (!details) return null
 
     return (
-      <div className="animate-in fade-in duration-300">
+      <div className="animate-in fade-in duration-300 pl-4">
         {/* Triggers Section */}
         {details.triggers.length > 0 && (
-          <div className="mt-1">
+          <div className="relative">
             <div className="sticky top-0 z-10 bg-background py-1">
-              <div className="px-3 flex items-center gap-2 text-sm font-light text-muted-foreground lowercase">
-                <Zap className="w-3.5 h-3.5" />
-                <span>Triggers</span>
-              </div>
+              <div className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <Zap className="w-4 h-4 text-gray-900" />
+              <span>Triggers</span>
             </div>
-            <div className="space-y-0.5 px-2 pl-6">
+            </div>
+            {/* Vertical line from header down */}
+            <div className="absolute left-6 top-8 bottom-0 w-[1px] bg-gray-200" />
+            <div className="space-y-0.5 mt-1 pl-8">
               {details.triggers.map((trigger) => (
                 <DraggableItem
                   key={trigger.name}
@@ -1449,9 +1964,9 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   }}
                   onClick={() => handleTriggerClick(appName, trigger)}
                 >
-                  <div className="flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors">
-                    <ItemIcon type={appName.toLowerCase()} />
-                    <span className="text-foreground truncate font-medium">{trigger.name}</span>
+                  <div className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-gray-100 transition-colors">
+                    <ItemIcon type={appName.toLowerCase()} appName={appName} />
+                    <span className="text-gray-900 truncate font-medium">{trigger.name}</span>
                   </div>
                 </DraggableItem>
               ))}
@@ -1459,16 +1974,29 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           </div>
         )}
 
-        {/* Action Groups */}
-        {details.actionGroups.map((group) => (
-          <div key={group.name} className="mt-2">
+        {/* Actions Section */}
+        {details.actionGroups.length > 0 && (
+          <div className="mt-4 relative">
             <div className="sticky top-0 z-10 bg-background py-1">
-              <div className="px-3 flex items-center gap-2 text-sm font-light text-muted-foreground lowercase">
-                <Play className="w-3.5 h-3.5" />
-                <span>{group.name}</span>
+              <div className="flex items-center gap-2 text-sm font-medium text-gray-900">
+                <Play className="w-4 h-4 text-gray-900" />
+                <span>Actions</span>
               </div>
             </div>
-            <div className="space-y-0.5 px-2 pl-6">
+            {/* Vertical line from Actions header down */}
+            <div className="absolute left-6 top-8 bottom-0 w-[1px] bg-gray-200" />
+
+        {/* Action Groups */}
+            {details.actionGroups.map((group, groupIndex) => (
+              <div key={group.name} className="relative">
+                {/* Subheader aligned with parent header (Actions) */}
+                <div className="pl-0 py-1 mt-2">
+                  <div className="text-sm font-normal text-gray-500">
+                    {group.name}
+            </div>
+                </div>
+                {/* Indented items */}
+                <div className="space-y-0.5 mt-1 pl-8">
               {group.items.map((action) => (
                 <DraggableItem
                   key={action.name}
@@ -1480,15 +2008,17 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   }}
                   onClick={() => handleActionClick(appName, action)}
                 >
-                  <div className="flex items-center gap-2.5 py-1 px-2 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors">
-                    <ItemIcon type={appName.toLowerCase()} />
-                    <span className="text-foreground truncate font-medium">{action.name}</span>
+                      <div className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-sm cursor-pointer hover:bg-gray-100 transition-colors">
+                        <ItemIcon type={appName.toLowerCase()} appName={appName} />
+                        <span className="text-gray-900 truncate font-medium">{action.name}</span>
                   </div>
                 </DraggableItem>
               ))}
             </div>
           </div>
         ))}
+          </div>
+        )}
       </div>
     )
   }
@@ -1869,7 +2399,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
   return (
     <TooltipProvider delayDuration={0} skipDelayDuration={0}>
-      <div className={`bg-card rounded-xl border border-border shadow-lg flex overflow-hidden group ${
+      <div className={`bg-white rounded-xl border border-gray-200 shadow-xl flex overflow-hidden group ${
         source === "sidebar" ? "w-[320px] h-[584px]" : "w-[420px] h-[312px]"
       }`}>
         {/* Sidebar with category tabs */}
@@ -1882,37 +2412,6 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
           />
 
           {/* Popular Tab */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={() => {
-                  setActiveTab("Popular")
-                  setSearchQuery("")
-                  setSelectedApp(null) // Clear selected app when changing tabs
-                  setTabKey((prev) => prev + 1)
-                }}
-                className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200 cursor-pointer relative z-10 ${
-                  activeTab === "Popular"
-                    ? "text-accent-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                }`}
-              >
-                <Home className={`w-4 h-4 ${activeTab === "Popular" ? "fill-current" : ""}`} />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent
-              side={source === "sidebar" ? "right" : "left"}
-              align="center"
-              sideOffset={0}
-              avoidCollisions={false}
-              className="bg-white text-foreground border border-border/50 shadow-md px-2 py-1.5 rounded-lg pointer-events-none"
-              arrowClassName="bg-white fill-white border-border/50"
-              onPointerEnter={(e) => e.preventDefault()}
-            >
-              <span className="text-sm font-medium">Popular</span>
-            </TooltipContent>
-          </Tooltip>
-
           {categoryTabs.map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.key
@@ -1943,7 +2442,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                           : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${isActive ? "fill-current" : ""}`} />
+                    <Icon className="w-4 h-4" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
@@ -1984,7 +2483,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
-                  className={`w-full ${searchQuery ? "pl-9 pr-8" : source === "sidebar" ? "pl-9 pr-8" : "pl-9 pr-12"} py-1 text-sm bg-muted/50 rounded-lg border border-border focus:outline-none focus:ring-1 focus:ring-ring`}
+                  className={`w-full ${searchQuery ? "pl-9 pr-8" : source === "sidebar" ? "pl-9 pr-8" : "pl-9 pr-12"} py-1.5 text-sm bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300`}
                 />
                 {searchQuery && (
                   <button
@@ -2050,14 +2549,16 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
             <div key={tabKey} className="animate-in fade-in duration-300">
               {selectedApp ? (
                 renderAppDetailView(selectedApp)
-              ) : activeTab === "Popular" && !isSearching ? (
-                renderHomeView()
-              ) : activeTab === "Core Nodes" && !isSearching ? (
-                renderCoreView()
               ) : activeTab === "Triggers" && !isSearching ? (
                 renderTriggersView()
-              ) : activeTab === "Inputs and Outputs" && !isSearching ? (
-                renderInputsAndOutputsView()
+              ) : activeTab === "Core Nodes" && !isSearching ? (
+                renderCoreView()
+              ) : activeTab === "Outputs" && !isSearching ? (
+                renderOutputsView()
+              ) : activeTab === "Utils" && !isSearching ? (
+                renderUtilsView()
+              ) : activeTab === "Apps" && !isSearching ? (
+                renderAppsView()
               ) : isSearching ? (
                 <>
                   {/* Core Actions Section */}
@@ -2640,113 +3141,149 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                         <>
                           {/* Category header (always shown, except for Utils) */}
                           {category.name !== "Utils" && (
-                            <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
+                      <div className="px-3 font-light text-muted-foreground text-sm py-1.5 my-0 lowercase">
                               {category.name}
-                            </div>
+                      </div>
                           )}
 
                           {/* For Utils category, show Logic section first, then Utils section */}
                           {category.name === "Utils" ? (
-                            <>
-                              {/* Logic section */}
-                              <div className="sticky top-0 z-10 bg-background py-1 my-0">
-                                <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
-                                  Logic
+                            <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-4`}>
+                              {/* Left Column */}
+                              <div>
+                                {/* Logic section */}
+                                <div className="sticky top-0 z-10 bg-background py-1 my-0">
+                                  <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                                    Logic
+                                  </div>
                                 </div>
+                                {category.items.slice(0, 4).map((item) => {
+                        const uniqueKey = `${category.name}-${item.name}`
+                        const details = appDetails[item.name]
+                        const actionData: SelectedAction = {
+                          appName: item.name,
+                          actionName: item.name,
+                          description: nodeDescriptions[item.name] || `${item.name} node`,
+                          type: "action",
+                        }
+
+                        if (source === "sidebar") {
+                        return (
+                            <DraggableItem
+                              key={uniqueKey}
+                              data={actionData}
+                              className="group/item"
+                            >
+                              <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                  <div className="flex-shrink-0">
+                                    <ItemIcon type={item.icon} />
+                                  </div>
+                                  <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                </div>
+                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
                               </div>
-                              {category.items.slice(0, 4).map((item) => {
-                                const uniqueKey = `${category.name}-${item.name}`
-                                const details = appDetails[item.name]
-                                const actionData: SelectedAction = {
-                                  appName: item.name,
-                                  actionName: item.name,
-                                  description: nodeDescriptions[item.name] || `${item.name} node`,
-                                  type: "action",
-                                }
+                            </DraggableItem>
+                          )
+                        }
 
-                                if (source === "sidebar") {
-                                  return (
-                                    <DraggableItem
-                                      key={uniqueKey}
-                                      data={actionData}
-                                      className="group/item"
-                                    >
-                                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
-                                          <div className="flex-shrink-0">
-                                            <ItemIcon type={item.icon} />
+                        return (
+                          <div key={uniqueKey} className="group/item">
+                            <div
+                              onClick={() => handleItemClick(category.name, item)}
+                                        className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                selectedAction === item.name && !details ? "bg-accent/40" : ""
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                          <ItemIcon type={item.icon} appName={item.name} />
+                                <span className="text-sm font-medium">{item.name}</span>
+                              </div>
+                              {details && (
+                                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                                
+                                {/* Databases section */}
+                                {category.utilsCategories && category.utilsCategories["Databases"] && (
+                                  <>
+                                    <div className="sticky top-0 z-10 bg-background py-1 my-0 mt-2">
+                                      <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
+                                        Databases
+                    </div>
+                                    </div>
+                                    {category.utilsCategories["Databases"].map((item) => {
+                                      const uniqueKey = `${category.name}-Databases-${item.name}`
+                                      const details = appDetails[item.name]
+                                      const actionData: SelectedAction = {
+                                        appName: item.name,
+                                        actionName: item.name,
+                                        description: nodeDescriptions[item.name] || `${item.name} node`,
+                                        type: "action",
+                                      }
+
+                                      if (source === "sidebar") {
+                                        return (
+                                          <DraggableItem
+                                            key={uniqueKey}
+                                            data={actionData}
+                                            className="group/item"
+                                          >
+                                            <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                              <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                                                <div className="flex-shrink-0">
+                                                  <ItemIcon type={item.icon} appName={item.name} />
+                                                </div>
+                                                <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
+                                              </div>
+                                              <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                                            </div>
+                                          </DraggableItem>
+                                        )
+                                      }
+
+                                      return (
+                                        <div key={uniqueKey} className="group/item">
+                                          <div
+                                            onClick={() => handleItemClick(category.name, item)}
+                                            className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
+                                              selectedAction === item.name && !details ? "bg-accent/40" : ""
+                                            }`}
+                                          >
+                                            <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
+                                              <ItemIcon type={item.icon} appName={item.name} />
+                                              <span className="text-sm font-medium">{item.name}</span>
+                                            </div>
+                                            {details && (
+                                              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
+                                            )}
                                           </div>
-                                          <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
                                         </div>
-                                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                                      </div>
-                                    </DraggableItem>
-                                  )
-                                }
+                                      )
+                                    })}
+                                  </>
+                                )}
+                              </div>
 
-                                return (
-                                  <div key={uniqueKey} className="group/item">
-                                    <div
-                                      onClick={() => handleItemClick(category.name, item)}
-                                      className={`flex items-center justify-between py-2 px-4 rounded-md text-sm cursor-pointer hover:bg-accent/50 transition-colors ${
-                                        selectedAction === item.name && !details ? "bg-accent/40" : ""
-                                      }`}
-                                    >
-                                      <div className="flex items-center gap-2.5 text-foreground overflow-x-auto whitespace-nowrap">
-                                        <ItemIcon type={item.icon} appName={item.name} />
-                                        <span className="text-sm font-medium">{item.name}</span>
-                                      </div>
-                                      {details && (
-                                        <ChevronDown className="w-3.5 h-3.5 text-muted-foreground -rotate-90 flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none" />
-                                      )}
-                                    </div>
-                                  </div>
-                                )
-                              })}
-                              
-                              {/* Utils subcategories */}
-                              {category.utilsCategories && Object.entries(category.utilsCategories).map(([subCategoryName, items]) => (
-                                <div key={subCategoryName}>
-                                  <div className="sticky top-0 z-10 bg-background py-1 my-0 mt-2">
+                              {/* Right Column - Utils (Miscellaneous) */}
+                              {source !== "sidebar" && category.utilsCategories && category.utilsCategories["Miscellaneous"] && (
+                    <div>
+                                  <div className="sticky top-0 z-10 bg-background py-1 my-0">
                                     <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
-                                      {subCategoryName}
-                                    </div>
+                                      Utils
+                      </div>
                                   </div>
-                                  {items.map((item) => {
-                                    const uniqueKey = `${category.name}-${subCategoryName}-${item.name}`
+                                  {category.utilsCategories["Miscellaneous"].map((item) => {
+                                    const uniqueKey = `${category.name}-Miscellaneous-${item.name}`
                                     const details = appDetails[item.name]
-                                    const actionData: SelectedAction = {
-                                      appName: item.name,
-                                      actionName: item.name,
+                        const actionData: SelectedAction = {
+                          appName: item.name,
+                          actionName: item.name,
                                       description: nodeDescriptions[item.name] || `${item.name} node`,
                                       type: "action",
-                                    }
-
-                                    if (source === "sidebar") {
-                                      return (
-                                        <DraggableItem
-                                          key={uniqueKey}
-                                          data={actionData}
-                                          className="group/item"
-                                        >
-                                          <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-sm cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                                            <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
-                                              <div className="flex-shrink-0">
-                                                <ItemIcon type={item.icon} appName={item.name} />
-                                              </div>
-                                              <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                  <span className="text-sm font-medium truncate min-w-0">{item.name}</span>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                  <p>{item.name}</p>
-                                                </TooltipContent>
-                                              </Tooltip>
-                                            </div>
-                                            <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                                          </div>
-                                        </DraggableItem>
-                                      )
                                     }
 
                                     return (
@@ -2769,8 +3306,8 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                                     )
                                   })}
                                 </div>
-                              ))}
-                            </>
+                              )}
+                            </div>
                           ) : (
                             <>
                               {/* Category items for other categories */}
@@ -2786,7 +3323,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                         }
 
                         if (source === "sidebar") {
-                        return (
+                          return (
                             <DraggableItem
                               key={uniqueKey}
                               data={actionData}
@@ -2826,7 +3363,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                         )
                       })}
                               </>
-                            )}
+                  )}
                         </>
                       )}
                     </div>
