@@ -1156,10 +1156,25 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
       { name: "Search Knowledge Base", icon: "book" },
     ]
 
+    // Define category priority order (most important first)
+    const categoryPriority = [
+      "Core Nodes",
+      "Web Search",
+      "Email",
+      "Web",
+      "Image",
+      "Computer",
+      "Document",
+      "Code",
+      "Knowledge Base",
+      "Workflow",
+      "Time",
+      "Files",
+    ]
+
     return (
       <div className="py-0 px-3 min-w-0 overflow-hidden">
-        <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-2`}>
-          {/* Left Column */}
+        <div className="grid grid-cols-1 gap-2">
           <div>
             {/* Core Nodes section */}
             <div className="mb-4">
@@ -1490,46 +1505,71 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
           </div>
 
-          {/* Right Column - StackAI Actions */}
-          {source !== "sidebar" && (
-            <div>
-              {/* All StackAI Actions by category */}
-              {Object.entries(groupedTools)
-                .filter(([category]) => category !== "Web" && category !== "Image" && category !== "Web Search" && category !== "Email" && category !== "Computer")
-                .map(([category, tools]) => (
-                <div key={category} className="mb-3">
-                  <div className="sticky top-0 z-10 bg-background py-1 mb-1">
-                    <div className="text-sm font-light text-muted-foreground">
-                      <span>{category}</span>
+            {/* Render remaining categories in priority order */}
+            {categoryPriority
+              .filter((category) => {
+                // Skip categories already rendered above
+                if (category === "Core Nodes" || category === "Email" || category === "Web" || 
+                    category === "Image" || category === "Web Search" || category === "Computer") {
+                  return false
+                }
+                return groupedTools[category] && groupedTools[category].length > 0
+              })
+              .map((category) => {
+                const tools = groupedTools[category]
+                return (
+                  <div key={category} className="mb-4">
+                    <div className="sticky top-0 z-10 bg-background py-1 mb-1">
+                      <div className="text-sm font-light text-muted-foreground">
+                        <span>{category}</span>
+                      </div>
+                    </div>
+                    <div className="space-y-0.5 min-w-0 overflow-hidden">
+                      {tools.map((tool) => {
+                        const actionData: SelectedAction = {
+                          appName: tool.name,
+                          actionName: tool.name,
+                          description: nodeDescriptions[tool.name] || `${tool.name} node`,
+                          type: "action",
+                        }
+                        
+                        if (source === "sidebar") {
+                          return (
+                            <DraggableItem
+                              key={tool.name}
+                              data={actionData}
+                              className="group/item"
+                            >
+                              <div className="flex items-center justify-between gap-2 py-1 px-2 rounded-md text-xs cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                                <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+                                  <div className="flex-shrink-0">
+                                    <ItemIcon type={tool.icon} />
+                                  </div>
+                                  <span className="text-sm text-foreground truncate font-medium min-w-0">{tool.name}</span>
+                                </div>
+                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                              </div>
+                            </DraggableItem>
+                          )
+                        }
+                        
+                        return (
+                          <div
+                            key={tool.name}
+                            onClick={() => handleItemClick("Core Nodes", tool)}
+                            className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-xs cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
+                          >
+                            <div className="flex-shrink-0">
+                              <ItemIcon type={tool.icon} />
+                            </div>
+                            <span className="text-sm text-foreground truncate font-medium min-w-0 flex-1">{tool.name}</span>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
-                  <div className="space-y-0.5 min-w-0 overflow-hidden">
-                    {tools.map((tool) => {
-                      const actionData: SelectedAction = {
-                        appName: tool.name,
-                        actionName: tool.name,
-                        description: nodeDescriptions[tool.name] || `${tool.name} node`,
-                        type: "action",
-                      }
-                      
-                      return (
-                        <div
-                          key={tool.name}
-                          onClick={() => handleItemClick("Core Nodes", tool)}
-                          className="flex items-center gap-2.5 py-1.5 px-2 rounded-md text-xs cursor-pointer hover:bg-accent/50 transition-colors min-w-0 overflow-hidden"
-                        >
-                          <div className="flex-shrink-0">
-                            <ItemIcon type={tool.icon} />
-                          </div>
-                          <span className="text-sm text-foreground truncate font-medium min-w-0 flex-1">{tool.name}</span>
-                    </div>
-                  )
-                })}
-              </div>
-              </div>
-            ))}
-            </div>
-          )}
+                )
+              })}
           </div>
         </div>
     )
@@ -1724,7 +1764,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
 
     return (
     <div className="py-0 px-2">
-      <div className={`grid ${source === "sidebar" ? "grid-cols-1" : "grid-cols-2"} gap-1`}>
+      <div className="grid grid-cols-1 gap-1">
           {/* Left Column */}
           <div className="min-w-0">
             {/* Flow section */}
@@ -1848,10 +1888,10 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
             )}
           </div>
 
-          {/* Right Column - Miscellaneous */}
-          {source !== "sidebar" && utilsCategory.utilsCategories && utilsCategory.utilsCategories["Miscellaneous"] && (
-        <div>
-              <div className="sticky top-0 z-10 bg-background py-1 my-0">
+          {/* Miscellaneous section */}
+          {utilsCategory.utilsCategories && utilsCategory.utilsCategories["Miscellaneous"] && (
+            <>
+              <div className="sticky top-0 z-10 bg-background py-1 my-0 mt-2">
                 <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
                   Miscellaneous
                 </div>
@@ -1865,6 +1905,26 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                     actionName: item.name,
                     description: nodeDescriptions[item.name] || `${item.name} node`,
                     type: "action",
+                  }
+
+                  if (source === "sidebar") {
+                    return (
+                      <DraggableItem
+                        key={uniqueKey}
+                        data={actionData}
+                        className="group/item"
+                      >
+                        <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-xs cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
+                          <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
+                            <div className="flex-shrink-0">
+                              <ItemIcon type={item.icon} appName={item.name} />
+                            </div>
+                            <span className="text-sm text-foreground truncate font-medium min-w-0">{item.name}</span>
+                          </div>
+                          <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
+                        </div>
+                      </DraggableItem>
+                    )
                   }
 
                   return (
@@ -1887,47 +1947,7 @@ export function AddElementsPanel({ onSelectAction, source = "handle", isPinned =
                   )
                 })}
               </div>
-            </div>
-          )}
-          
-          {/* Sidebar: Show Miscellaneous in left column when source is sidebar */}
-          {source === "sidebar" && utilsCategory.utilsCategories && utilsCategory.utilsCategories["Miscellaneous"] && (
-            <div className="mt-4">
-              <div className="sticky top-0 z-10 bg-background py-1 my-0">
-                <div className="px-3 font-light text-muted-foreground text-xs uppercase tracking-wider">
-                  Miscellaneous
-                </div>
-              </div>
-              <div className="space-y-0.5 px-2 min-w-0">
-                {utilsCategory.utilsCategories["Miscellaneous"].map((item: CategoryItem) => {
-                  const uniqueKey = `Utils-Miscellaneous-${item.name}`
-                  const actionData: SelectedAction = {
-                    appName: item.name,
-                    actionName: item.name,
-                    description: nodeDescriptions[item.name] || `${item.name} node`,
-                    type: "action",
-                  }
-
-                  return (
-                    <DraggableItem
-                      key={uniqueKey}
-                      data={actionData}
-                      className="group/item"
-                    >
-                      <div className="flex items-center justify-between py-1.5 pl-3 pr-3 text-xs cursor-grab hover:bg-accent/50 transition-colors min-w-0 overflow-hidden">
-                        <div className="flex items-center gap-2 text-foreground min-w-0 flex-1 overflow-hidden">
-                          <div className="flex-shrink-0">
-                            <ItemIcon type={item.icon} appName={item.name} />
-                          </div>
-                          <span className="text-sm text-foreground truncate font-medium min-w-0">{item.name}</span>
-                        </div>
-                        <GripVertical className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all pointer-events-none ml-1" />
-                      </div>
-                    </DraggableItem>
-                  )
-                })}
-              </div>
-            </div>
+            </>
           )}
         </div>
       </div>
